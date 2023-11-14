@@ -69,14 +69,12 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
                 (column) => column.field === selectedColumn
             );
 
-            console.log(column);
             handleOperators(column);
         }
     }, [columns, selectedColumn]);
 
     function handleOperators(column) {
         if (!column) return;
-        console.log("entering case");
 
         setFilterValue("");
         switch (column?.type) {

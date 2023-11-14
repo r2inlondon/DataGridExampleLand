@@ -32,8 +32,6 @@ const CustomFilterPanel = ({
     const [operatorDefault, setOperatorDefault] = useState("");
     const classes = useStyles();
 
-    console.log(applicableOperators);
-
     useEffect(() => {
         selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
     }, [selectedColumn]);
@@ -76,6 +74,10 @@ const CustomFilterPanel = ({
         label: operator.label,
     }));
 
+    const indexLabel = operatorNamesOnly.findIndex(
+        (obj) => obj.label === operatorDefault
+    );
+
     return (
         <div className={classes.container}>
             <IconButton onClick={onClear} size="small">
@@ -102,7 +104,11 @@ const CustomFilterPanel = ({
                 <Select
                     labelId="operator-select-label"
                     id="operator-select"
-                    value={operatorDefault}
+                    value={
+                        indexLabel !== -1
+                            ? operatorNamesOnly[indexLabel].label
+                            : ""
+                    }
                     onChange={(e) => handleSelectedOperator(e.target.value)}
                     label="Operators"
                 >
