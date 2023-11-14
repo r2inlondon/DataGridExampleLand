@@ -1,0 +1,11 @@
+/* body .MuiGridPanel-root {
+  right: 15px;
+  padding: 5px;
+  left: auto !important;
+  top: -60px !important;
+} */
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
