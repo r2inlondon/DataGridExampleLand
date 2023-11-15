@@ -1,7 +1,7 @@
 import "./styles.css";
 import DataGridComponent from "./DataGridComp";
 import { parseISO, format, parse } from "date-fns";
-import { initColumnsWithOperators } from "./initColumnsWithOperators";
+import { addNumberOperators, getOperatorsFromBase } from "./numberOperators";
 
 import { dummyData } from "./dummyData";
 
@@ -21,7 +21,6 @@ export default function App() {
             disableColumnMenu: true,
             minWidth: 130,
             type: "number",
-            // filterOperators: getGridNumberOperators()
         },
         {
             field: "created_at",
@@ -38,7 +37,6 @@ export default function App() {
                     return "";
                 }
             },
-            // filterOperators: getGridNumberOperators()
         },
         {
             field: "title",
@@ -56,8 +54,9 @@ export default function App() {
         },
     ];
 
-    const columnsWithOperators = initColumnsWithOperators(gridColumns);
-    const baseColumn = columnsWithOperators[1];
+    const columnsChecked = addNumberOperators(gridColumns);
+    const baseColumn = columnsChecked[1];
+    const baseColumnOperators = getOperatorsFromBase(baseColumn);
 
     return (
         <div
@@ -69,8 +68,9 @@ export default function App() {
         >
             <DataGridComponent
                 data={dummyData}
-                gridColumns={columnsWithOperators}
+                gridColumns={columnsChecked}
                 baseColumn={baseColumn}
+                baseColumnOperators={baseColumnOperators}
             />
         </div>
     );

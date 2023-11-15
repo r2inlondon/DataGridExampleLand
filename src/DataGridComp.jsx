@@ -4,12 +4,12 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import CustomPagination from "./CustomPagination";
 import ToolbarContainer from "./ToolbarContainer";
-import { stringOperators } from "./getGridNumberOperators";
-import { getDateOperators } from "./getDateOperators";
+import { customNumberOperators } from "./numberOperators";
+import { stringOperators, dateOperators } from "./stringAndDateOperators";
 
 const useStyles = makeStyles((theme) => styles(theme));
 
-function DataGridComp({ data, gridColumns, baseColumn }) {
+function DataGridComp({ data, gridColumns, baseColumn, baseColumnOperators }) {
     const [page, setPage] = useState(1);
     const [columns, setColumns] = useState(gridColumns);
     const [allRowsCount, setAllRowsCount] = useState(0);
@@ -23,7 +23,7 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
         baseColumn.filterOperators
     );
     const [selectedOperator, setSelectedOperator] = useState(
-        baseColumn.filterOperators[0].value
+        baseColumnOperators[0].value
     );
     const [filterValue, setFilterValue] = useState("");
     const [filterModelItems, setFilterModelItems] = useState({
@@ -41,16 +41,6 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
             setResetRows(false);
         }
     }, [resetRows]);
-
-    // useEffect(() => {
-    //     const columnsOperatorsOk = gridColumns.map((column) =>
-    //         column?.type === "number"
-    //             ? { ...column, filterOperators: getGridNumberOperators() }
-    //             : column
-    //     );
-    //     console.log({ columnsOperatorsOk });
-    //     setColumns(columnsOperatorsOk);
-    // }, [selectedColumn]);
 
     useEffect(() => {
         setFilterModelItems({
@@ -80,11 +70,11 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
         switch (column?.type) {
             case "number":
                 setSelectedOperator("notEquals");
-                setApplicableOperators(column.filterOperators);
+                setApplicableOperators(customNumberOperators());
                 break;
             case "date":
                 setSelectedOperator("is");
-                setApplicableOperators(getDateOperators());
+                setApplicableOperators(dateOperators());
                 break;
             default:
                 setSelectedOperator("contains");
@@ -143,7 +133,6 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
                     pageSize={rowsPerPage}
                     rowsPerPageOptions={[rowsPerPage]}
                     disableSelectionOnClick
-                    // disableColumnSelector
                     hideFooter
                     getRowId={(row) => row.id}
                     page={page - 1}

@@ -1,6 +1,34 @@
 import { GridFilterInputValue } from "@mui/x-data-grid";
+import { dateOperators, stringOperators } from "./stringAndDateOperators";
 
-export const getGridNumberOperators = () => [
+export function addNumberOperators(columns) {
+    // columns of type number need the custom numberOperators for filter to work
+    const processedColumns = columns.map((column) =>
+        column.type === "number"
+            ? { ...column, filterOperators: customNumberOperators() }
+            : column
+    );
+    return processedColumns;
+}
+
+export function getOperatorsFromBase(column) {
+    let operators = [];
+    switch (column?.type) {
+        case "number":
+            operators = customNumberOperators();
+            break;
+        case "date":
+            operators = dateOperators();
+            break;
+        default:
+            operators = stringOperators();
+            break;
+    }
+
+    return operators;
+}
+
+export const customNumberOperators = () => [
     {
         value: "notEquals",
         label: "Not equals",
@@ -85,13 +113,4 @@ export const getGridNumberOperators = () => [
         requiresFilterValue: false,
     },
     // Add more custom number operators as needed
-];
-
-export const stringOperators = () => [
-    { label: "Contains", value: "contains" },
-    { label: "Equals", value: "equals" },
-    { label: "Starts with", value: "startsWith" },
-    { label: "Ends with", value: "endsWith" },
-    { label: "Is empty", value: "isEmpty" },
-    { label: "Is not empty", value: "isNotEmpty" },
 ];
