@@ -1,11 +1,27 @@
+import React, { useState, useEffect } from "react";
 import "./styles.css";
-import DataGridComponent from "./DataGridComp";
-import { parseISO, format, parse } from "date-fns";
+import { parseISO, format } from "date-fns";
+import { IconButton } from "@material-ui/core";
+
 import { addNumberOperators, getOperatorsFromBase } from "./numberOperators";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+import DataGridComponent from "./DataGridComp";
 
 import { dummyData } from "./dummyData";
 
 export default function App() {
+    const [rowsData, setRowsData] = useState([]);
+
+    useEffect(() => {
+        setRowsData(dummyData);
+    }, [dummyData]);
+
+    function handleDelete(deleteRow) {
+        setRowsData((prevRows) =>
+            prevRows.filter((row) => row.id !== deleteRow.id)
+        );
+    }
+
     const gridColumns = [
         {
             field: "id",
@@ -42,7 +58,7 @@ export default function App() {
             field: "title",
             headerName: "title",
             disableColumnMenu: true,
-            minWidth: 200,
+            width: 200,
             type: "string",
         },
         {
@@ -51,6 +67,18 @@ export default function App() {
             disableColumnMenu: true,
             flex: 1,
             type: "string",
+        },
+        {
+            field: "actions",
+            headerName: " ",
+            type: "actions",
+            width: 100,
+            disableColumnMenu: true,
+            renderCell: ({ row }) => (
+                <IconButton onClick={() => handleDelete(row)}>
+                    <DeleteOutlineIcon />
+                </IconButton>
+            ),
         },
     ];
 
@@ -67,7 +95,7 @@ export default function App() {
             }}
         >
             <DataGridComponent
-                data={dummyData}
+                data={rowsData}
                 gridColumns={columnsChecked}
                 baseColumn={baseColumn}
                 baseColumnOperators={baseColumnOperators}
