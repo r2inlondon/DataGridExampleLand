@@ -1,9 +1,8 @@
-import "./styles.css";
 import DataGridComponent from "./DataGridComp";
 import { parseISO, format, parse } from "date-fns";
 import { initColumnsWithOperators } from "./initColumnsWithOperators";
 
-import { dummyData } from "./dummyData";
+// import { dummyData } from "./dummyData";
 
 export default function App() {
     const gridColumns = [
@@ -16,12 +15,26 @@ export default function App() {
             type: "number",
         },
         {
-            field: "userId",
-            headerName: "User ID",
+            field: "name",
+            headerName: "name",
             disableColumnMenu: true,
             minWidth: 130,
-            type: "number",
+            type: "string",
             // filterOperators: getGridNumberOperators()
+        },
+        {
+            field: "filetype",
+            headerName: "Type",
+            disableColumnMenu: true,
+            flex: 1,
+            type: "string",
+        },
+        {
+            field: "size",
+            headerName: "Size",
+            disableColumnMenu: true,
+            flex: 150,
+            type: "string",
         },
         {
             field: "created_at",
@@ -40,20 +53,6 @@ export default function App() {
             },
             // filterOperators: getGridNumberOperators()
         },
-        {
-            field: "title",
-            headerName: "title",
-            disableColumnMenu: true,
-            minWidth: 200,
-            type: "string",
-        },
-        {
-            field: "body",
-            headerName: "body",
-            disableColumnMenu: true,
-            flex: 1,
-            type: "string",
-        },
     ];
 
     const columnsWithOperators = initColumnsWithOperators(gridColumns);
@@ -68,7 +67,7 @@ export default function App() {
             }}
         >
             <DataGridComponent
-                data={dummyData}
+                data={storedFiles}
                 gridColumns={columnsWithOperators}
                 baseColumn={baseColumn}
             />

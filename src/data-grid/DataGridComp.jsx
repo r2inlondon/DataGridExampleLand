@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid } from "@mui/x-data-grid";
 
 import CustomPagination from "./CustomPagination";
-import ToolbarContainer from "./ToolbarContainer";
+import ToolbarContainer from "../ToolbarContainer";
 import { stringOperators } from "./getGridNumberOperators";
 import { getDateOperators } from "./getDateOperators";
 

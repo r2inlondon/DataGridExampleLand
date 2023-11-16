@@ -5,7 +5,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { GridToolbarContainer } from "@mui/x-data-grid";
 import { makeStyles } from "@material-ui/core/styles";
 
-import CustomFilterPanel from "./CustomFilterPanel";
+import CustomFilterPanel from "./data-grid/CustomFilterPanel";
 
 const useStyles = makeStyles((theme) => styles(theme));
 
