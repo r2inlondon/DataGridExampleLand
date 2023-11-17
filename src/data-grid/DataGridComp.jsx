@@ -3,9 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid } from "@mui/x-data-grid";
 
 import CustomPagination from "./CustomPagination";
-import ToolbarContainer from "../ToolbarContainer";
-import { stringOperators } from "./getGridNumberOperators";
-import { getDateOperators } from "./getDateOperators";
+import ToolbarContainer from "../CustomFilter/ToolbarContainer";
+import { stringOperators, dateOperators } from "./getGridNumberOperators";
 
 const useStyles = makeStyles((theme) => styles(theme));
 
@@ -86,7 +85,7 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
                 break;
             case "date":
                 setSelectedOperator("is");
-                setApplicableOperators(getDateOperators());
+                setApplicableOperators(dateOperators());
                 break;
             default:
                 setSelectedOperator("contains");

@@ -86,12 +86,3 @@ export const getGridNumberOperators = () => [
     },
     // Add more custom number operators as needed
 ];
-
-export const stringOperators = () => [
-    { label: "Contains", value: "contains" },
-    { label: "Equals", value: "equals" },
-    { label: "Starts with", value: "startsWith" },
-    { label: "Ends with", value: "endsWith" },
-    { label: "Is empty", value: "isEmpty" },
-    { label: "Is not empty", value: "isNotEmpty" },
-];

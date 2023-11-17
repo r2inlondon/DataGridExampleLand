@@ -1,6 +1,6 @@
 import DataGridComponent from "./DataGridComp";
 import { parseISO, format, parse } from "date-fns";
-import { initColumnsWithOperators } from "./initColumnsWithOperators";
+import { initColumnsWithOperators } from "./addOperatorsToColumn";
 
 // import { dummyData } from "./dummyData";
 
