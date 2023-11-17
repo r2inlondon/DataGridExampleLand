@@ -95,11 +95,21 @@ const CustomFilterPanel = (props) => {
         }
     }, [defaultOperatorForDropDownMenu]);
 
+    function handleClearFilter() {
+        console.log("CLEAR !!");
+        setSelectedColumn(baseColumn.field);
+        setFilterValue("");
+
+        // TODO: reset filtered data
+        // onClear()
+    }
+
     function handleSelectedColumn(columnName) {
         const column = columns.find(
             (column) => column.headerName === columnName
         );
         // handleOperators(column);
+        setFilterValue("");
         setSelectedColumn(column.field);
         // setSelectedColumnType(column.type);
     }
@@ -111,23 +121,15 @@ const CustomFilterPanel = (props) => {
         setSelectedOperator(operator.value);
     }
 
-    // const columnsNamesOnly = columnsWithOperators.map((column) => ({
-    //     headerName: column.headerName,
-    // }));
-
     const operatorNamesOnly = [...applicableOperators];
 
     const indexLabel = operatorNamesOnly.findIndex(
         (obj) => obj.label === defaultOperatorForDropDownMenu
     );
 
-    // const indexLabel = operatorNamesOnly.findIndex(
-    //     (obj) => obj.label === selectedOperator
-    // );
-
     return (
         <div className={classes.container}>
-            <IconButton onClick={onClear} size="small">
+            <IconButton onClick={handleClearFilter} size="small">
                 <ClearIcon />
             </IconButton>
             <FormControl className={classes.inputs} variant="standard">
