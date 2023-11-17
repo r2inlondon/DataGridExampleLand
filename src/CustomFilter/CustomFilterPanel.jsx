@@ -49,7 +49,6 @@ const CustomFilterPanel = (props) => {
     }, []);
 
     useEffect(() => {
-        selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
         if (columnsWithOperators.length > 0) {
             const operators = columnsWithOperators.find(
                 (column) => column.field === selectedColumn
@@ -72,12 +71,11 @@ const CustomFilterPanel = (props) => {
 
     useEffect(() => {
         if (applicableOperators.length > 0) {
-            console.log(applicableOperators);
-            console.log(selectedOperator);
             const operator = applicableOperators.find(
                 (operator) => operator.value === selectedOperator
             );
             console.log({ operator });
+            selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
             setDefaultOperatorForDropDownMenu(operator.label);
         }
     }, [applicableOperators, selectedOperator]);
