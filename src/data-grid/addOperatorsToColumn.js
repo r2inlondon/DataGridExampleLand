@@ -2,7 +2,11 @@ import { getGridNumberOperators } from "./getGridNumberOperators";
 import { stringOperators, dateOperators } from "./stringAndDateOperators";
 
 export function addOperatorsToColumn(columns) {
-    const processedColumns = columns.map((column) => {
+    const onlyVisibleColumns = columns.filter(
+        (column) => column?.hide !== true
+    );
+
+    const processedColumns = onlyVisibleColumns.map((column) => {
         switch (column?.type) {
             case "number":
                 return { ...column, filterOperators: getGridNumberOperators() };

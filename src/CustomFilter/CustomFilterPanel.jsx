@@ -34,7 +34,6 @@ const CustomFilterPanel = (props) => {
     const [columnDefault, setColumnDefault] = useState("");
     const [defaultOperatorForDropDownMenu, setDefaultOperatorForDropDownMenu] =
         useState("");
-    const [indexOperatorSelector, setIndexOperatorSelector] = useState(0);
     const classes = useStyles();
 
     useEffect(() => {
@@ -50,7 +49,7 @@ const CustomFilterPanel = (props) => {
     }, []);
 
     useEffect(() => {
-        // selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
+        selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
         if (columnsWithOperators.length > 0) {
             const operators = columnsWithOperators.find(
                 (column) => column.field === selectedColumn
@@ -88,10 +87,6 @@ const CustomFilterPanel = (props) => {
             const indexLabel = applicableOperators.findIndex(
                 (obj) => obj.label === defaultOperatorForDropDownMenu
             );
-
-            console.log({ indexLabel });
-            setIndexOperatorSelector(indexLabel);
-            console.log(applicableOperators[indexLabel].label);
         }
     }, [defaultOperatorForDropDownMenu]);
 
