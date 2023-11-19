@@ -110,13 +110,11 @@ const CustomFilterPanel = (props) => {
         setSelectedOperator(operator.value);
     }
 
-    const columnsNamesOnly = [...columnsWithOperators];
-    const columnsIndex = columnsNamesOnly.findIndex(
+    const columnsIndex = columnsWithOperators.findIndex(
         (obj) => obj.headerName === columnForLabel
     );
 
-    const operatorNamesOnly = [...operatorsForSelectMenu];
-    const operatorIndex = operatorNamesOnly.findIndex(
+    const operatorIndex = operatorsForSelectMenu.findIndex(
         (obj) => obj.label === operatorForLabel
     );
 
@@ -132,13 +130,13 @@ const CustomFilterPanel = (props) => {
                     id="column-select"
                     value={
                         columnsIndex !== -1
-                            ? columnsNamesOnly[columnsIndex].headerName
+                            ? columnsWithOperators[columnsIndex].headerName
                             : ""
                     }
                     onChange={(e) => handleSelectedColumn(e.target.value)}
                     label="Columns"
                 >
-                    {columnsNamesOnly.map((column, index) => (
+                    {columnsWithOperators.map((column, index) => (
                         <MenuItem key={index} value={column.headerName}>
                             {column.headerName}
                         </MenuItem>
@@ -152,13 +150,13 @@ const CustomFilterPanel = (props) => {
                     id="operator-select"
                     value={
                         operatorIndex !== -1
-                            ? operatorNamesOnly[operatorIndex].label
+                            ? operatorsForSelectMenu[operatorIndex].label
                             : ""
                     }
                     onChange={(e) => handleSelectedOperator(e.target.value)}
                     label="Operators"
                 >
-                    {operatorNamesOnly.map((operator, index) => (
+                    {operatorsForSelectMenu.map((operator, index) => (
                         <MenuItem key={index} value={operator.label}>
                             {operator.label}
                         </MenuItem>
