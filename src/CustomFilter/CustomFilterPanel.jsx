@@ -31,10 +31,9 @@ const CustomFilterPanel = (props) => {
     const [selectedColumn, setSelectedColumn] = useState("");
     const [selectedOperator, setSelectedOperator] = useState("");
     const [filterValue, setFilterValue] = useState("");
-    const [applicableOperators, setApplicableOperators] = useState([]);
-    const [columnDefault, setColumnDefault] = useState("");
-    const [defaultOperatorForDropDownMenu, setDefaultOperatorForDropDownMenu] =
-        useState("");
+    const [operatorsForSelectMenu, setOperatorsForSelectMenu] = useState([]);
+    const [operatorForLabel, setOperatorForLabel] = useState("");
+    const [columnForLabel, setColumnForLabel] = useState("");
     const classes = useStyles();
 
     useEffect(() => {
@@ -43,13 +42,17 @@ const CustomFilterPanel = (props) => {
             const newColumns = addOperatorsToColumn(columns);
             setColumnsWithOperators(newColumns);
 
-            const baseColumnOperators = newColumns.find(
+            const baseColumWithOperators = newColumns.filter(
                 (column) => column.field === baseColumn.field
-            ).filterOperators;
+            );
 
-            setSelectedColumn(baseColumn.field);
-            setApplicableOperators(baseColumnOperators);
-            setSelectedOperator(baseColumnOperators[0].value);
+            setSelectedColumn(baseColumWithOperators[0]);
+            setOperatorsForSelectMenu(
+                baseColumWithOperators[0].filterOperators
+            );
+            setSelectedOperator(
+                baseColumWithOperators[0].filterOperators[0].value
+            );
             setResetFilter(false);
             console.log("RESET FILTER !!");
         }
@@ -58,32 +61,32 @@ const CustomFilterPanel = (props) => {
     useEffect(() => {
         if (columnsWithOperators.length > 0) {
             const operators = columnsWithOperators.find(
-                (column) => column.field === selectedColumn
+                (column) => column.field === selectedColumn.field
             ).filterOperators;
-
             setSelectedOperator(operators[0].value);
-            setApplicableOperators(operators);
+            setOperatorsForSelectMenu(operators);
         }
     }, [selectedColumn]);
 
     useEffect(() => {
         if (selectedColumn) {
-            const column = columns.find(
-                (column) => column.field === selectedColumn
+            const column = columnsWithOperators.find(
+                (column) => column.field === selectedColumn.field
             );
-            setColumnDefault(column.headerName);
+            setColumnForLabel(column.headerName);
         }
     }, [selectedColumn]);
 
     useEffect(() => {
-        if (applicableOperators.length > 0) {
-            const operator = applicableOperators.find(
+        if (operatorsForSelectMenu.length > 0) {
+            const operator = operatorsForSelectMenu.find(
                 (operator) => operator.value === selectedOperator
             );
             selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
-            setDefaultOperatorForDropDownMenu(operator.label);
+
+            setOperatorForLabel(operator.label);
         }
-    }, [applicableOperators, selectedOperator]);
+    }, [operatorsForSelectMenu, selectedOperator]);
 
     function handleClearFilter() {
         setResetFilter(true);
@@ -93,26 +96,28 @@ const CustomFilterPanel = (props) => {
     }
 
     function handleSelectedColumn(columnName) {
-        const column = columns.find(
+        const column = columnsWithOperators.find(
             (column) => column.headerName === columnName
         );
-        // handleOperators(column);
         setFilterValue("");
-        setSelectedColumn(column.field);
-        // setSelectedColumnType(column.type);
+        setSelectedColumn(column);
     }
 
     function handleSelectedOperator(operatorLabel) {
-        const operator = applicableOperators.find(
+        const operator = operatorsForSelectMenu.find(
             (operator) => operator.label === operatorLabel
         );
         setSelectedOperator(operator.value);
     }
 
-    const operatorNamesOnly = [...applicableOperators];
+    const columnsNamesOnly = [...columnsWithOperators];
+    const columnsIndex = columnsNamesOnly.findIndex(
+        (obj) => obj.headerName === columnForLabel
+    );
 
-    const indexLabel = operatorNamesOnly.findIndex(
-        (obj) => obj.label === defaultOperatorForDropDownMenu
+    const operatorNamesOnly = [...operatorsForSelectMenu];
+    const operatorIndex = operatorNamesOnly.findIndex(
+        (obj) => obj.label === operatorForLabel
     );
 
     return (
@@ -125,11 +130,15 @@ const CustomFilterPanel = (props) => {
                 <Select
                     labelId="column-select-label"
                     id="column-select"
-                    value={columnDefault}
+                    value={
+                        columnsIndex !== -1
+                            ? columnsNamesOnly[columnsIndex].headerName
+                            : ""
+                    }
                     onChange={(e) => handleSelectedColumn(e.target.value)}
                     label="Columns"
                 >
-                    {columnsWithOperators.map((column, index) => (
+                    {columnsNamesOnly.map((column, index) => (
                         <MenuItem key={index} value={column.headerName}>
                             {column.headerName}
                         </MenuItem>
@@ -142,8 +151,8 @@ const CustomFilterPanel = (props) => {
                     labelId="operator-select-label"
                     id="operator-select"
                     value={
-                        indexLabel !== -1
-                            ? operatorNamesOnly[indexLabel].label
+                        operatorIndex !== -1
+                            ? operatorNamesOnly[operatorIndex].label
                             : ""
                     }
                     onChange={(e) => handleSelectedOperator(e.target.value)}
