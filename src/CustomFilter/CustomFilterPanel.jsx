@@ -26,8 +26,9 @@ const CustomFilterPanel = (props) => {
     } = props;
 
     const [isDate, setIsDate] = useState(false);
+    const [resetFilter, setResetFilter] = useState(true);
     const [columnsWithOperators, setColumnsWithOperators] = useState([]);
-    const [selectedColumn, setSelectedColumn] = useState(baseColumn.field);
+    const [selectedColumn, setSelectedColumn] = useState("");
     const [selectedOperator, setSelectedOperator] = useState("");
     const [filterValue, setFilterValue] = useState("");
     const [applicableOperators, setApplicableOperators] = useState([]);
@@ -37,16 +38,22 @@ const CustomFilterPanel = (props) => {
     const classes = useStyles();
 
     useEffect(() => {
-        const newColumns = addOperatorsToColumn(columns);
-        setColumnsWithOperators(newColumns);
+        if (resetFilter) {
+            setFilterValue("");
+            const newColumns = addOperatorsToColumn(columns);
+            setColumnsWithOperators(newColumns);
 
-        const baseColumnOperators = newColumns.find(
-            (column) => column.field === baseColumn.field
-        ).filterOperators;
+            const baseColumnOperators = newColumns.find(
+                (column) => column.field === baseColumn.field
+            ).filterOperators;
 
-        setApplicableOperators(baseColumnOperators);
-        setSelectedOperator(baseColumnOperators[0].value);
-    }, []);
+            setSelectedColumn(baseColumn.field);
+            setApplicableOperators(baseColumnOperators);
+            setSelectedOperator(baseColumnOperators[0].value);
+            setResetFilter(false);
+            console.log("RESET FILTER !!");
+        }
+    }, [resetFilter]);
 
     useEffect(() => {
         if (columnsWithOperators.length > 0) {
@@ -61,7 +68,6 @@ const CustomFilterPanel = (props) => {
 
     useEffect(() => {
         if (selectedColumn) {
-            console.log({ selectedColumn });
             const column = columns.find(
                 (column) => column.field === selectedColumn
             );
@@ -74,24 +80,13 @@ const CustomFilterPanel = (props) => {
             const operator = applicableOperators.find(
                 (operator) => operator.value === selectedOperator
             );
-            console.log({ operator });
             selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
             setDefaultOperatorForDropDownMenu(operator.label);
         }
     }, [applicableOperators, selectedOperator]);
 
-    useEffect(() => {
-        if (defaultOperatorForDropDownMenu) {
-            const indexLabel = applicableOperators.findIndex(
-                (obj) => obj.label === defaultOperatorForDropDownMenu
-            );
-        }
-    }, [defaultOperatorForDropDownMenu]);
-
     function handleClearFilter() {
-        console.log("CLEAR !!");
-        setSelectedColumn(baseColumn.field);
-        setFilterValue("");
+        setResetFilter(true);
 
         // TODO: reset filtered data
         // onClear()
