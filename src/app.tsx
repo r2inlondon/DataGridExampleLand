@@ -14,7 +14,7 @@ import {
     Popover,
 } from "@material-ui/core";
 
-import DocumentItem from "./grid/DocumentItem";
+import DocumentItem from "./grid/DocumentItem.jsx";
 // import DataGridContainer from "./data-grid/DataGridContainer";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
