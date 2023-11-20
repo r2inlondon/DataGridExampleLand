@@ -1,4 +1,4 @@
-export const getGridNumberOperators = () => [
+export const getGridNumberOperatorsValues = [
     {
         value: "notEquals",
         label: "Not equals",

@@ -1,4 +1,4 @@
-export type DocumentsColumnsType = {
+export type DocumentsColumnsInt = {
     field: string;
     headerName: string;
     disableColumnMenu: Boolean;
@@ -6,19 +6,19 @@ export type DocumentsColumnsType = {
     width?: number;
     flex?: number;
     hide?: Boolean;
-    filterOperators?:
-        | DateOperatorsInt[]
-        | NumberOperatorsInt[]
-        | StringOperatorsInt[];
+    // OperatorsValues?: OperatorsBaseInt[];
 };
 
-interface OperatorsBase {
-    label: string;
-    value: string;
+export interface DocumentsColumnsWithOpValues extends DocumentsColumnsInt {
+    operatorsValues: OperatorsBaseInt[];
 }
 
-export interface StringOperatorsInt extends OperatorsBase {}
+export interface OperatorsBaseInt {
+    [key: string]: string;
+}
 
-export interface DateOperatorsInt extends OperatorsBase {}
+export interface StringOperatorsInt extends OperatorsBaseInt {}
 
-export interface NumberOperatorsInt extends OperatorsBase {}
+export interface DateOperatorsInt extends OperatorsBaseInt {}
+
+export interface NumberOperatorsInt extends OperatorsBaseInt {}

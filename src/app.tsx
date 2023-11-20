@@ -21,7 +21,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import { storedFiles, StoredFilesType } from "./sampleData/storedFiles";
 import CustomFilterPanel from "./CustomFilter/CustomFilterPanel";
 
-import { DocumentsColumnsType } from "./rootTypes/columnsTypes";
+import { DocumentsColumnsInt } from "./rootTypes/columnsTypes";
 
 const useStyles = makeStyles((theme) => styles(theme));
 
@@ -65,7 +65,7 @@ function App() {
         console.log(id);
     }
 
-    const gridColumns: DocumentsColumnsType[] = [
+    const gridColumns: DocumentsColumnsInt[] = [
         {
             field: "id",
             headerName: "ID",
@@ -115,7 +115,7 @@ function App() {
         },
     ];
 
-    const baseColumn = gridColumns[1];
+    const baseColumn: DocumentsColumnsInt = gridColumns[1];
 
     const uploadButton = (
         <Button color="secondary" variant="outlined" component="label">

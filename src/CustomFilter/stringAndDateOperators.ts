@@ -1,4 +1,4 @@
-export const dateOperators = () => [
+export const dateOperatorsValues = [
     { value: "is", label: "Is" },
     { value: "not", label: "Not" },
     { value: "after", label: "After" },
@@ -6,7 +6,7 @@ export const dateOperators = () => [
     { value: "before", label: "Before" },
     { value: "onOrBefore", label: "On or before" },
 ];
-export const stringOperators = () => [
+export const stringOperatorsValues = [
     {
         label: "Contains",
         value: "contains",
