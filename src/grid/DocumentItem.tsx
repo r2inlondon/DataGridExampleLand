@@ -18,15 +18,18 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DownloadIcon from "@material-ui/icons/GetApp";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-import ContentTypeIcon from "./ContentTypeIcon";
+import { StoredFilesType } from "../sampleData/storedFiles";
 
-const useStyles = makeStyles((theme) => styles(theme));
+type DocumentItemProps = {
+    document: StoredFilesType;
+    onDelete: Function;
+};
 
-function DocumentItem({ document, onDelete }) {
+function DocumentItem({ document, onDelete }: DocumentItemProps) {
     const classes = useStyles();
-    const [anchorEl, setAnchorEl] = useState(false);
+    const [anchorEl, setAnchorEl] = useState<any>(false);
 
-    function handleOpenMenu(e) {
+    function handleOpenMenu(e: any) {
         setAnchorEl(e.currentTarget);
     }
 
@@ -80,7 +83,7 @@ function DocumentItem({ document, onDelete }) {
     );
 }
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexDirection: "column",
@@ -135,6 +138,6 @@ const styles = (theme) => ({
         alignItems: "center",
         justifyContent: "center",
     },
-});
+}));
 
 export default DocumentItem;

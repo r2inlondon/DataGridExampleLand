@@ -1,4 +1,12 @@
-export const storedFiles = [
+export type StoredFilesType = {
+    id: number;
+    filename: string;
+    filetype: string;
+    size: string;
+    created_at: string;
+};
+
+export const storedFiles: StoredFilesType[] = [
     {
         id: 1,
         filename: "libros.xls",

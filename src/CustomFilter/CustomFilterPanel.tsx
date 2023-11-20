@@ -13,27 +13,51 @@ import { makeStyles } from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 
 import { addOperatorsToColumn } from "../data-grid/addOperatorsToColumn";
+import { StoredFilesType } from "../sampleData/storedFiles";
+import { DocumentsColumnsType } from "../rootTypes/columnsTypes";
+import {
+    StringOperatorsInt,
+    DateOperatorsInt,
+    NumberOperatorsInt,
+} from "../rootTypes/columnsTypes";
+
+type CustomFilterPanelProps = {
+    data: StoredFilesType[];
+    columns: DocumentsColumnsType[];
+    baseColumn: DocumentsColumnsType;
+};
+
+type OperatorsType =
+    | StringOperatorsInt[]
+    | DateOperatorsInt[]
+    | NumberOperatorsInt[];
 
 const useStyles = makeStyles((theme) => styles(theme));
 
-const CustomFilterPanel = (props) => {
+const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     const {
         data,
         columns,
         baseColumn,
-        onClear,
+        // onClear,
         // handleOperators,
     } = props;
 
-    const [isDate, setIsDate] = useState(false);
-    const [resetFilter, setResetFilter] = useState(true);
-    const [columnsWithOperators, setColumnsWithOperators] = useState([]);
-    const [selectedColumn, setSelectedColumn] = useState("");
-    const [selectedOperator, setSelectedOperator] = useState("");
-    const [filterValue, setFilterValue] = useState("");
-    const [operatorsForSelectMenu, setOperatorsForSelectMenu] = useState([]);
-    const [operatorForLabel, setOperatorForLabel] = useState("");
-    const [columnForLabel, setColumnForLabel] = useState("");
+    const [isDate, setIsDate] = useState<Boolean>(false);
+    const [resetFilter, setResetFilter] = useState<Boolean>(true);
+    const [columnsWithOperators, setColumnsWithOperators] = useState<
+        DocumentsColumnsType[]
+    >([]);
+    const [selectedColumn, setSelectedColumn] =
+        useState<DocumentsColumnsType>();
+    const [selectedOperator, setSelectedOperator] = useState<string>("");
+    const [filterValue, setFilterValue] = useState<string>("");
+    const [operatorsForSelectMenu, setOperatorsForSelectMenu] =
+        useState<OperatorsType>();
+    // const [operatorForLabel, setOperatorForLabel] = useState<string>("");
+    const [operatorForLabelIndex, setOperatorForLabelIndex] =
+        useState<number>(0);
+    const [columnForLabel, setColumnForLabel] = useState<string>("");
     const classes = useStyles();
 
     useEffect(() => {
@@ -60,9 +84,11 @@ const CustomFilterPanel = (props) => {
 
     useEffect(() => {
         if (columnsWithOperators.length > 0) {
-            const operators = columnsWithOperators.find(
-                (column) => column.field === selectedColumn.field
-            ).filterOperators;
+            const foundColumn = columnsWithOperators.find(
+                (column) => column.field === selectedColumn?.field
+            ) as DocumentsColumnsType;
+
+            const operators = foundColumn.filterOperators as OperatorsType;
             setSelectedOperator(operators[0].value);
             setOperatorsForSelectMenu(operators);
         }
@@ -72,19 +98,29 @@ const CustomFilterPanel = (props) => {
         if (selectedColumn) {
             const column = columnsWithOperators.find(
                 (column) => column.field === selectedColumn.field
-            );
+            ) as DocumentsColumnsType;
             setColumnForLabel(column.headerName);
         }
     }, [selectedColumn]);
 
     useEffect(() => {
-        if (operatorsForSelectMenu.length > 0) {
+        if (operatorsForSelectMenu && operatorsForSelectMenu.length > 0) {
             const operator = operatorsForSelectMenu.find(
                 (operator) => operator.value === selectedOperator
             );
-            selectedOperator === "is" ? setIsDate(true) : setIsDate(false);
 
-            setOperatorForLabel(operator.label);
+            selectedColumn?.type === "date"
+                ? setIsDate(true)
+                : setIsDate(false);
+
+            if (operator) {
+                const operatorIndex = operatorsForSelectMenu.findIndex(
+                    (obj) => obj.label === operator.label
+                );
+
+                // setOperatorForLabel(operator.label);
+                setOperatorForLabelIndex(operatorIndex);
+            }
         }
     }, [operatorsForSelectMenu, selectedOperator]);
 
@@ -95,7 +131,7 @@ const CustomFilterPanel = (props) => {
         // onClear()
     }
 
-    function handleSelectedColumn(columnName) {
+    function handleSelectedColumn(columnName: string) {
         const column = columnsWithOperators.find(
             (column) => column.headerName === columnName
         );
@@ -103,19 +139,18 @@ const CustomFilterPanel = (props) => {
         setSelectedColumn(column);
     }
 
-    function handleSelectedOperator(operatorLabel) {
-        const operator = operatorsForSelectMenu.find(
-            (operator) => operator.label === operatorLabel
-        );
-        setSelectedOperator(operator.value);
+    function handleSelectedOperator(operatorLabel: string) {
+        if (operatorsForSelectMenu) {
+            const operator = operatorsForSelectMenu.find(
+                (operator) => operator.label === operatorLabel
+            );
+
+            if (operator) setSelectedOperator(operator.value);
+        }
     }
 
     const columnsIndex = columnsWithOperators.findIndex(
         (obj) => obj.headerName === columnForLabel
-    );
-
-    const operatorIndex = operatorsForSelectMenu.findIndex(
-        (obj) => obj.label === operatorForLabel
     );
 
     return (
@@ -133,7 +168,7 @@ const CustomFilterPanel = (props) => {
                             ? columnsWithOperators[columnsIndex].headerName
                             : ""
                     }
-                    onChange={(e) => handleSelectedColumn(e.target.value)}
+                    onChange={(e: any) => handleSelectedColumn(e.target.value)}
                     label="Columns"
                 >
                     {columnsWithOperators.map((column, index) => (
@@ -145,23 +180,28 @@ const CustomFilterPanel = (props) => {
             </FormControl>
             <FormControl className={classes.inputs} variant="standard">
                 <InputLabel id="operator-select-label">Operators</InputLabel>
-                <Select
-                    labelId="operator-select-label"
-                    id="operator-select"
-                    value={
-                        operatorIndex !== -1
-                            ? operatorsForSelectMenu[operatorIndex].label
-                            : ""
-                    }
-                    onChange={(e) => handleSelectedOperator(e.target.value)}
-                    label="Operators"
-                >
-                    {operatorsForSelectMenu.map((operator, index) => (
-                        <MenuItem key={index} value={operator.label}>
-                            {operator.label}
-                        </MenuItem>
-                    ))}
-                </Select>
+                {operatorsForSelectMenu && (
+                    <Select
+                        labelId="operator-select-label"
+                        id="operator-select"
+                        value={
+                            operatorForLabelIndex !== -1
+                                ? operatorsForSelectMenu[operatorForLabelIndex]
+                                      .label
+                                : ""
+                        }
+                        onChange={(e: any) =>
+                            handleSelectedOperator(e.target.value)
+                        }
+                        label="Operators"
+                    >
+                        {operatorsForSelectMenu?.map((operator, index) => (
+                            <MenuItem key={index} value={operator.label}>
+                                {operator.label}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                )}
             </FormControl>
             <TextField
                 id="filter-value-input"
@@ -179,7 +219,7 @@ const CustomFilterPanel = (props) => {
     );
 };
 
-const styles = (theme) => ({
+const styles = (theme: any) => ({
     container: {
         display: "flex",
         alignItems: "center",

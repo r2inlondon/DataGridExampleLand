@@ -14,18 +14,20 @@ import {
     Popover,
 } from "@material-ui/core";
 
-import DocumentItem from "./grid/DocumentItem.jsx";
+import DocumentItem from "./grid/DocumentItem";
 // import DataGridContainer from "./data-grid/DataGridContainer";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
-import { storedFiles } from "./storedFiles";
+import { storedFiles, StoredFilesType } from "./sampleData/storedFiles";
 import CustomFilterPanel from "./CustomFilter/CustomFilterPanel";
+
+import { DocumentsColumnsType } from "./rootTypes/columnsTypes";
 
 const useStyles = makeStyles((theme) => styles(theme));
 
 function App() {
     const classes = useStyles();
-    const [documents, setDocuments] = useState([]);
+    const [documents, setDocuments] = useState<StoredFilesType[]>([]);
     const [showTable, setShowTable] = useState(false);
     const [currentRowsInLabel, setCurrentRowsInLabel] = useState(0);
     const [allRowsCount, setAllRowsCount] = useState(0);
@@ -36,14 +38,14 @@ function App() {
         setDocuments(storedFiles);
     }, [storedFiles]);
 
-    const onClear = () => {
-        setSelectedColumn("name");
-        setSelectedColumnType("contains");
-        // setFilterValue("");
-        // setResetRows(true);
-    };
+    // const onClear = () => {
+    //     setSelectedColumn("name");
+    //     setSelectedColumnType("contains");
+    // setFilterValue("");
+    // setResetRows(true);
+    // };
 
-    const handlePopoverOpen = (event) => {
+    const handlePopoverOpen = (event: any) => {
         setAnchorEl(event.currentTarget);
     };
 
@@ -51,19 +53,19 @@ function App() {
         setAnchorEl(null);
     };
 
-    function handleChange(event) {
+    function handleChange(event: any) {
         console.log(event);
     }
 
-    function handleSubmission(file) {
+    function handleSubmission(file: any) {
         console.log(file);
     }
 
-    function handleDelete(id) {
+    function handleDelete(id: any) {
         console.log(id);
     }
 
-    const gridColumns = [
+    const gridColumns: DocumentsColumnsType[] = [
         {
             field: "id",
             headerName: "ID",
@@ -76,7 +78,7 @@ function App() {
             field: "name",
             headerName: "Name",
             disableColumnMenu: true,
-            minWidth: 130,
+            width: 130,
             type: "string",
             // filterOperators: getGridNumberOperators()
         },
@@ -98,17 +100,17 @@ function App() {
             field: "created_at",
             headerName: "Date",
             disableColumnMenu: true,
-            minWidth: 230,
+            width: 230,
             type: "date",
-            valueFormatter: ({ value }) => {
-                if (value) {
-                    const date = parseISO(value);
-                    const formattedDate = format(date, "dd/MM/yyyy");
-                    return formattedDate;
-                } else {
-                    return "";
-                }
-            },
+            // valueFormatter: ({ value }) => {
+            //     if (value) {
+            //         const date = parseISO(value);
+            //         const formattedDate = format(date, "dd/MM/yyyy");
+            //         return formattedDate;
+            //     } else {
+            //         return "";
+            //     }
+            // },
             // filterOperators: getGridNumberOperators()
         },
     ];
@@ -181,9 +183,9 @@ function App() {
                         data={documents}
                         columns={gridColumns}
                         baseColumn={baseColumn}
-                        onClear={onClear}
-                        currentRowsInLabel={currentRowsInLabel}
-                        allRowsCount={allRowsCount}
+                        // onClear={onClear}
+                        // currentRowsInLabel={currentRowsInLabel}
+                        // allRowsCount={allRowsCount}
                     />
                 </Popover>
             </div>
@@ -211,7 +213,7 @@ function App() {
     );
 }
 
-const styles = (theme) => ({
+const styles = (theme: any) => ({
     mainContainer: {
         width: "80%",
         margin: "auto",

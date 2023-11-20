@@ -7,7 +7,20 @@ export const dateOperators = () => [
     { value: "onOrBefore", label: "On or before" },
 ];
 export const stringOperators = () => [
-    { label: "Contains", value: "contains" },
+    {
+        label: "Contains",
+        value: "contains",
+        // getApplyFilterFn: (filterItem) => {
+        //     if (filterItem.value === undefined) {
+        //         return null;
+        //     }
+        //     return ({ value }) => {
+        //         return value != null
+        //             ? Number(value) > Number(filterItem.value)
+        //             : false;
+        //     };
+        // },
+    },
     { label: "Equals", value: "equals" },
     { label: "Starts with", value: "startsWith" },
     { label: "Ends with", value: "endsWith" },
