@@ -35,4 +35,11 @@ export const storedFiles: StoredFilesType[] = [
         size: "2800521",
         created_at: "2023-11-13T18:07:15.732Z",
     },
+    {
+        id: 5,
+        filename: "",
+        filetype: "Image file",
+        size: "2800521",
+        created_at: "2023-11-13T18:07:15.732Z",
+    },
 ];

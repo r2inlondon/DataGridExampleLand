@@ -56,6 +56,11 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     const [operatorForLabelIndex, setOperatorForLabelIndex] =
         useState<number>(0);
     const [columnForLabel, setColumnForLabel] = useState<string>("");
+    // const [filterModel, setFilterModel] = useState({
+    //     column: selectedColumn,
+    //     operator: selectedOperator,
+    //     value: filterValue,
+    // });
     const classes = useStyles();
 
     useEffect(() => {
@@ -153,19 +158,23 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
         }
     }
 
-    function handleFilterValue(userInput: string) {
-        setFilterValue(userInput);
-
-        if (selectedColumn && selectedOperator) {
+    useEffect(() => {
+        if (selectedColumn !== undefined) {
             const filterModel = {
-                items: data,
                 column: selectedColumn,
                 operator: selectedOperator,
-                value: userInput,
+                value: filterValue,
             };
 
-            const result = filterForm(filterModel);
+            const results = filterForm(data, filterModel);
+            console.log(results);
         }
+
+        // const results = filterForm(data, filterModel)
+    }, [selectedOperator, filterValue]);
+
+    function handleFilterValue(userInput: string) {
+        setFilterValue(userInput);
     }
 
     const columnsIndex = columnsWithOperators.findIndex(

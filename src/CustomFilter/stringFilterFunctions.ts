@@ -3,7 +3,10 @@ import { stringOperatorsValues } from "./stringAndDateOperators";
 
 interface StringFilterFunctionsInt {
     value: string;
-    getApplyFilterFn: (filterItem: FilterItem) => (value: Item) => boolean;
+    getApplyFilterFn: (
+        filterItem: FilterItem
+    ) => ((value: string) => boolean | null) | null;
+    requiresFilterValue?: boolean;
 }
 
 type FilterItem = {
@@ -12,14 +15,14 @@ type FilterItem = {
 
 type Item = string;
 
-export const stringFilterFunctions = [
+export const stringFilterFunctions: StringFilterFunctionsInt[] = [
     {
         value: "contains",
         getApplyFilterFn: (filterItem: FilterItem) => {
             if (filterItem.value === undefined) {
                 return null;
             }
-            return (value: Item) => {
+            return (value: string) => {
                 return value != null ? value.includes(filterItem.value) : false;
             };
         },
@@ -69,18 +72,20 @@ export const stringFilterFunctions = [
     },
     {
         value: "isEmpty",
-        getApplyFilterFn: () => {
+        getApplyFilterFn: (filterItem: FilterItem) => {
             return (value: Item) => {
                 return value === undefined || value === null || value === "";
             };
         },
+        requiresFilterValue: false,
     },
     {
         value: "isNotEmpty",
-        getApplyFilterFn: () => {
+        getApplyFilterFn: (filterItem: FilterItem) => {
             return (value: Item) => {
                 return value !== undefined && value !== null && value !== "";
             };
         },
+        requiresFilterValue: false,
     },
 ];
