@@ -27,6 +27,7 @@ type CustomFilterPanelProps = {
     data: StoredFilesType[];
     columns: DocumentsColumnsInt[];
     baseColumn: DocumentsColumnsInt;
+    setFilteredItems: (items: StoredFilesType[]) => void;
 };
 
 const useStyles = makeStyles((theme) => styles(theme));
@@ -36,6 +37,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
         data,
         columns,
         baseColumn,
+        setFilteredItems,
         // onClear,
         // handleOperators,
     } = props;
@@ -167,10 +169,8 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
             };
 
             const results = filterForm(data, filterModel);
-            console.log(results);
+            setFilteredItems(results);
         }
-
-        // const results = filterForm(data, filterModel)
     }, [selectedOperator, filterValue]);
 
     function handleFilterValue(userInput: string) {

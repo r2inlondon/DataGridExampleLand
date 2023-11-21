@@ -28,7 +28,8 @@ const useStyles = makeStyles((theme) => styles(theme));
 function App() {
     const classes = useStyles();
     const [documents, setDocuments] = useState<StoredFilesType[]>([]);
-    const [showTable, setShowTable] = useState(false);
+    const [filteredItems, setFilteredItems] = useState<StoredFilesType[]>([]);
+    const [showGrid, setShowGrid] = useState(true);
     const [currentRowsInLabel, setCurrentRowsInLabel] = useState(0);
     const [allRowsCount, setAllRowsCount] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -36,6 +37,7 @@ function App() {
 
     useEffect(() => {
         setDocuments(storedFiles);
+        setFilteredItems(storedFiles);
     }, [storedFiles]);
 
     // const onClear = () => {
@@ -134,8 +136,8 @@ function App() {
 
     const gridAndListButton = (
         <Box component="div" mx={2} display="flex" justifyContent="center">
-            <IconButton onClick={() => setShowTable(!showTable)} size="small">
-                {showTable ? <ViewGridOutlineIcon /> : <ListIcon />}
+            <IconButton onClick={() => setShowGrid(!showGrid)} size="small">
+                {showGrid ? <ViewGridOutlineIcon /> : <ListIcon />}
             </IconButton>
         </Box>
     );
@@ -181,6 +183,7 @@ function App() {
                 >
                     <CustomFilterPanel
                         data={documents}
+                        setFilteredItems={setFilteredItems}
                         columns={gridColumns}
                         baseColumn={baseColumn}
                         // onClear={onClear}
@@ -189,9 +192,9 @@ function App() {
                     />
                 </Popover>
             </div>
-            {!showTable && (
+            {showGrid && (
                 <div className={classes.grid}>
-                    {documents.map((document) => (
+                    {filteredItems.map((document) => (
                         <DocumentItem
                             key={document.filename}
                             document={document}

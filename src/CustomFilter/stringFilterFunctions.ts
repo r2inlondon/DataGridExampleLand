@@ -1,5 +1,4 @@
 import _, { lowerCase } from "lodash";
-import { stringOperatorsValues } from "./stringAndDateOperators";
 
 interface StringFilterFunctionsInt {
     value: string;
