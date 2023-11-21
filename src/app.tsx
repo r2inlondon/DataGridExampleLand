@@ -75,7 +75,7 @@ function App() {
             type: "number",
         },
         {
-            field: "name",
+            field: "filename",
             headerName: "Name",
             disableColumnMenu: true,
             width: 130,

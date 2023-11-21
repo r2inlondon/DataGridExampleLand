@@ -12,13 +12,16 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 
-import { addOperatorsToColumn } from "./addOperatorsToColumn";
 import { StoredFilesType } from "../sampleData/storedFiles";
 import {
     DocumentsColumnsInt,
     DocumentsColumnsWithOpValues,
 } from "../rootTypes/columnsTypes";
 import { OperatorsBaseInt } from "../rootTypes/columnsTypes";
+import { set } from "date-fns";
+
+import { addOperatorsToColumn } from "./addOperatorsToColumn";
+import { filterForm } from "./FilterForm";
 
 type CustomFilterPanelProps = {
     data: StoredFilesType[];
@@ -150,6 +153,21 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
         }
     }
 
+    function handleFilterValue(userInput: string) {
+        setFilterValue(userInput);
+
+        if (selectedColumn && selectedOperator) {
+            const filterModel = {
+                items: data,
+                column: selectedColumn,
+                operator: selectedOperator,
+                value: userInput,
+            };
+
+            const result = filterForm(filterModel);
+        }
+    }
+
     const columnsIndex = columnsWithOperators.findIndex(
         (obj) => obj.headerName === columnForLabel
     );
@@ -212,7 +230,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
                     autoComplete: "off",
                 }}
                 value={filterValue}
-                onChange={(e) => setFilterValue(e.target.value)}
+                onChange={(e: any) => handleFilterValue(e.target.value)}
                 className={classes.inputs}
                 style={{ flexGrow: 1 }}
             />
