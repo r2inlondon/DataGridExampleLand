@@ -2,7 +2,7 @@ import { DocumentsColumnsWithOpValues } from "../rootTypes/columnsTypes";
 import { StoredFilesType } from "../sampleData/storedFiles";
 import { stringFilterFunctions } from "./stringFilterFunctions";
 
-type filterModelType = {
+type FilterModelType = {
     column: DocumentsColumnsWithOpValues;
     operator: string;
     value: string;
@@ -10,7 +10,7 @@ type filterModelType = {
 
 export function filterForm(
     data: StoredFilesType[],
-    filterModel: filterModelType
+    filterModel: FilterModelType
 ) {
     // if (!data) return;
 

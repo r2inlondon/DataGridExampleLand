@@ -25,16 +25,25 @@ import CustomFilterPanel from "./CustomFilter/CustomFilterPanel";
 import DataGridContainer from "./data-grid/DataGridContainer";
 
 import { DocumentsColumnsInt } from "./rootTypes/columnsTypes";
+import { DocumentsColumnsWithOpValues } from "./rootTypes/columnsTypes";
 
 const useStyles = makeStyles((theme) => styles(theme));
+
+export type CachedFilterType = {
+    column: DocumentsColumnsWithOpValues;
+    operator: string;
+    value: string;
+};
 
 function App() {
     const classes = useStyles();
     const [documents, setDocuments] = useState<StoredFilesType[]>([]);
     const [filteredItems, setFilteredItems] = useState<StoredFilesType[]>([]);
     const [showGrid, setShowGrid] = useState(false);
-    const [currentRowsInLabel, setCurrentRowsInLabel] = useState(0);
-    const [allRowsCount, setAllRowsCount] = useState(0);
+    const [isFilterOn, setIsFilterOn] = useState<boolean>(false);
+    const [cachedFilter, setCachedFilter] = useState<CachedFilterType>();
+    // const [currentRowsInLabel, setCurrentRowsInLabel] = useState(0);
+    // const [allRowsCount, setAllRowsCount] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -43,12 +52,15 @@ function App() {
         setFilteredItems(storedFiles);
     }, [storedFiles]);
 
-    // const onClear = () => {
-    //     setSelectedColumn("name");
-    //     setSelectedColumnType("contains");
-    // setFilterValue("");
-    // setResetRows(true);
-    // };
+    useEffect(() => {
+        if (filteredItems.length !== documents.length) {
+            console.log("filter ON");
+            setIsFilterOn(true);
+        } else {
+            console.log("filter OFF");
+            setIsFilterOn(false);
+        }
+    }, [filteredItems]);
 
     const handlePopoverOpen = (event: any) => {
         setAnchorEl(event.currentTarget);
@@ -57,14 +69,6 @@ function App() {
     const handlePopoverClose = () => {
         setAnchorEl(null);
     };
-
-    function handleChange(event: any) {
-        console.log(event);
-    }
-
-    function handleSubmission(file: any) {
-        console.log(file);
-    }
 
     function handleDelete(id: any) {
         console.log(id);
@@ -132,7 +136,7 @@ function App() {
                 type="file"
                 // accept="image/*"
                 hidden
-                onChange={handleChange}
+                // onChange={handleChange}
             />
         </Button>
     );
@@ -161,8 +165,7 @@ function App() {
                         onClick={handlePopoverOpen}
                     >
                         <Badge
-                            // badgeContent={filterValue ? 1 : 0}
-                            badgeContent={0}
+                            badgeContent={isFilterOn ? 1 : 0}
                             color="primary"
                         >
                             <FilterListIcon />
@@ -186,9 +189,14 @@ function App() {
                 >
                     <CustomFilterPanel
                         data={documents}
+                        filteredItems={filteredItems}
                         setFilteredItems={setFilteredItems}
                         columns={gridColumns}
                         baseColumn={baseColumn}
+                        setIsFilterOn={setIsFilterOn}
+                        isFilterOn={isFilterOn}
+                        cachedFilter={cachedFilter}
+                        setCachedFilter={setCachedFilter}
                         // onClear={onClear}
                         // currentRowsInLabel={currentRowsInLabel}
                         // allRowsCount={allRowsCount}

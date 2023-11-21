@@ -5,7 +5,7 @@ export type DocumentsColumnsInt = {
     type: string;
     width?: number;
     flex?: number;
-    hide?: Boolean;
+    hide?: boolean;
     // OperatorsValues?: OperatorsBaseInt[];
 };
 

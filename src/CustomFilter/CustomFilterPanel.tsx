@@ -3,10 +3,8 @@ import {
     IconButton,
     Select,
     MenuItem,
-    Input,
     FormControl,
     InputLabel,
-    Box,
     TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -18,6 +16,7 @@ import {
     DocumentsColumnsWithOpValues,
 } from "../rootTypes/columnsTypes";
 import { OperatorsBaseInt } from "../rootTypes/columnsTypes";
+import { CachedFilterType } from "../app";
 import { set } from "date-fns";
 
 import { addOperatorsToColumn } from "./addOperatorsToColumn";
@@ -27,7 +26,12 @@ type CustomFilterPanelProps = {
     data: StoredFilesType[];
     columns: DocumentsColumnsInt[];
     baseColumn: DocumentsColumnsInt;
+    filteredItems: StoredFilesType[];
     setFilteredItems: (items: StoredFilesType[]) => void;
+    setIsFilterOn: (isFilterOn: boolean) => void;
+    isFilterOn: boolean;
+    cachedFilter: CachedFilterType | undefined;
+    setCachedFilter: (filter: CachedFilterType) => void;
 };
 
 const useStyles = makeStyles((theme) => styles(theme));
@@ -37,13 +41,16 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
         data,
         columns,
         baseColumn,
+        filteredItems,
         setFilteredItems,
-        // onClear,
-        // handleOperators,
+        isFilterOn,
+        setIsFilterOn,
+        cachedFilter,
+        setCachedFilter,
     } = props;
 
-    const [isDate, setIsDate] = useState<Boolean>(false);
-    const [resetFilter, setResetFilter] = useState<Boolean>(true);
+    const [isDate, setIsDate] = useState<boolean>(false);
+    const [resetFilter, setResetFilter] = useState<boolean>(true);
     const [columnsWithOperators, setColumnsWithOperators] = useState<
         DocumentsColumnsWithOpValues[]
     >([]);
@@ -54,19 +61,13 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     const [operatorsForSelectMenu, setOperatorsForSelectMenu] = useState<
         OperatorsBaseInt[]
     >([]);
-    // const [operatorForLabel, setOperatorForLabel] = useState<string>("");
     const [operatorForLabelIndex, setOperatorForLabelIndex] =
         useState<number>(0);
     const [columnForLabel, setColumnForLabel] = useState<string>("");
-    // const [filterModel, setFilterModel] = useState({
-    //     column: selectedColumn,
-    //     operator: selectedOperator,
-    //     value: filterValue,
-    // });
     const classes = useStyles();
 
     useEffect(() => {
-        if (resetFilter) {
+        if (resetFilter && !isFilterOn) {
             setFilterValue("");
             const newColumns = addOperatorsToColumn(columns);
             setColumnsWithOperators(newColumns);
@@ -86,10 +87,54 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
                 );
                 setResetFilter(false);
             }
-
             console.log("RESET FILTER !!");
         }
     }, [resetFilter]);
+
+    // function setFilterUp(initColumn) {
+    //     const newColumns = addOperatorsToColumn(columns);
+    //     setColumnsWithOperators(newColumns);
+
+    //     const initColumnWithOperators = newColumns.find(
+    //         (column) => column.field === initColumn.field
+    //     );
+
+    //     if (initColumnWithOperators) {
+    //         setSelectedColumn(initColumnWithOperators);
+
+    //         setOperatorsForSelectMenu(initColumnWithOperators.operatorsValues);
+    //         setSelectedOperator(
+    //             initColumnWithOperators.operatorsValues[0].value
+    //         );
+    //         setResetFilter(false);
+    //     }
+    //     console.log("RESET FILTER !!");
+    // }
+
+    useEffect(() => {
+        if (isFilterOn && cachedFilter) {
+            const newColumns = addOperatorsToColumn(columns);
+            setColumnsWithOperators(newColumns);
+
+            const filteredColumWithOperators = newColumns.find(
+                (column) => column.field === cachedFilter.column.field
+            );
+
+            if (filteredColumWithOperators) {
+                setSelectedColumn(filteredColumWithOperators);
+
+                setOperatorsForSelectMenu(
+                    filteredColumWithOperators.operatorsValues
+                );
+
+                setSelectedOperator(cachedFilter.operator);
+
+                setFilterValue(cachedFilter.value);
+                setResetFilter(false);
+            }
+            console.log("filter has been retrieved");
+        }
+    }, []);
 
     useEffect(() => {
         if (columnsWithOperators.length > 0) {
@@ -136,6 +181,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     }, [operatorsForSelectMenu, selectedOperator]);
 
     function handleClearFilter() {
+        setIsFilterOn(false);
         setResetFilter(true);
 
         // TODO: reset filtered data
@@ -167,6 +213,8 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
                 operator: selectedOperator,
                 value: filterValue,
             };
+
+            setCachedFilter(filterModel);
 
             const results = filterForm(data, filterModel);
             setFilteredItems(results);
