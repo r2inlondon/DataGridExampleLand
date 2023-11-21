@@ -15,11 +15,14 @@ import {
 } from "@material-ui/core";
 
 import DocumentItem from "./grid/DocumentItem";
-// import DataGridContainer from "./data-grid/DataGridContainer";
+
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import { storedFiles, StoredFilesType } from "./sampleData/storedFiles";
 import CustomFilterPanel from "./CustomFilter/CustomFilterPanel";
+// import DataGridComponent from "./data-grid/DataGridComp";
+
+import DataGridContainer from "./data-grid/DataGridContainer";
 
 import { DocumentsColumnsInt } from "./rootTypes/columnsTypes";
 
@@ -29,7 +32,7 @@ function App() {
     const classes = useStyles();
     const [documents, setDocuments] = useState<StoredFilesType[]>([]);
     const [filteredItems, setFilteredItems] = useState<StoredFilesType[]>([]);
-    const [showGrid, setShowGrid] = useState(true);
+    const [showGrid, setShowGrid] = useState(false);
     const [currentRowsInLabel, setCurrentRowsInLabel] = useState(0);
     const [allRowsCount, setAllRowsCount] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);
@@ -67,7 +70,7 @@ function App() {
         console.log(id);
     }
 
-    const gridColumns: DocumentsColumnsInt[] = [
+    const gridColumns = [
         {
             field: "id",
             headerName: "ID",
@@ -80,7 +83,7 @@ function App() {
             field: "filename",
             headerName: "Name",
             disableColumnMenu: true,
-            width: 130,
+            flex: 1,
             type: "string",
             // filterOperators: getGridNumberOperators()
         },
@@ -95,7 +98,7 @@ function App() {
             field: "size",
             headerName: "Size",
             disableColumnMenu: true,
-            flex: 150,
+            width: 130,
             type: "number",
         },
         {
@@ -204,14 +207,13 @@ function App() {
                 </div>
             )}
             {/* {!showGrid && <DocumentsTable documents={documents} onDelete={handleDelete} />} */}
-            {/* {showTable && (
+            {!showGrid && (
                 <DataGridContainer
-                    documents={documents}
-                    uploadButton={uploadButton}
-                    gridAndListButton={gridAndListButton}
-                    onDelete={handleDelete}
+                    data={filteredItems}
+                    columns={gridColumns}
+                    // onDelete={handleDelete}
                 />
-            )} */}
+            )}
         </div>
     );
 }

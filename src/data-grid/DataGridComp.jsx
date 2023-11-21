@@ -4,9 +4,16 @@ import { DataGrid } from "@mui/x-data-grid";
 
 import CustomPagination from "./CustomPagination";
 import ToolbarContainer from "../CustomFilter/ToolbarContainer";
-import { stringOperators, dateOperators } from "./getGridNumberOperators";
 
-const useStyles = makeStyles((theme) => styles(theme));
+import { DocumentsColumnsInt } from "../rootTypes/columnsTypes";
+import { StoredFilesType } from "../sampleData/storedFiles";
+
+// type ComponentProps = {
+//     data: StoredFilesType[];
+//     gridColumns: DocumentsColumnsInt[];
+//     baseColumn: DocumentsColumnsInt;
+//     // onDelete: (id: string) => void;
+// };
 
 function DataGridComp({ data, gridColumns, baseColumn }) {
     const [page, setPage] = useState(1);
@@ -149,9 +156,6 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
                     getRowId={(row) => row.id}
                     page={page - 1}
                     disableColumnFilter={true}
-                    filterModel={{
-                        items: [filterModelItems],
-                    }}
                     onStateChange={(state) => {
                         const virtualRowsCount =
                             state.containerSizes?.virtualRowsCount;
@@ -168,26 +172,6 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
                             filteredRowsArr
                         );
                     }}
-                    components={{
-                        Toolbar: ToolbarContainer,
-                    }}
-                    componentsProps={{
-                        toolbar: {
-                            currentRowsInLabel,
-                            allRowsCount,
-                            columns,
-                            applicableOperators,
-                            setSelectedColumnType,
-                            selectedColumn,
-                            setSelectedColumn,
-                            selectedOperator,
-                            setSelectedOperator,
-                            filterValue,
-                            setFilterValue,
-                            onClear,
-                            handleOperators,
-                        },
-                    }}
                 />
                 <CustomPagination
                     pageCount={pageCount}
@@ -199,7 +183,7 @@ function DataGridComp({ data, gridColumns, baseColumn }) {
     );
 }
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
     root: {
         border: "none",
         "& .MuiDataGrid-cell": {
@@ -225,6 +209,6 @@ const styles = (theme) => ({
         // width: "100%",
         position: "relative",
     },
-});
+}));
 
 export default DataGridComp;
