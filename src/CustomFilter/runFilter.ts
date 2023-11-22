@@ -8,7 +8,7 @@ type FilterModelType = {
     value: string;
 };
 
-export function filterForm(
+export function runFilter(
     data: StoredFilesType[],
     filterModel: FilterModelType
 ) {

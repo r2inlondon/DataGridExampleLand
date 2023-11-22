@@ -20,7 +20,7 @@ import { CachedFilterType } from "../app";
 import { set } from "date-fns";
 
 import { addOperatorsToColumn } from "./addOperatorsToColumn";
-import { filterForm } from "./FilterForm";
+import { runFilter } from "./runFilter";
 
 type CustomFilterPanelProps = {
     data: StoredFilesType[];
@@ -192,7 +192,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
 
             setCachedFilter(filterModel);
 
-            const results = filterForm(data, filterModel);
+            const results = runFilter(data, filterModel);
             setFilteredItems(results);
         }
     }, [selectedOperator, filterValue]);
