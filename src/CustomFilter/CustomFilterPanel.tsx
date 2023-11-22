@@ -66,78 +66,53 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     const [columnForLabel, setColumnForLabel] = useState<string>("");
     const classes = useStyles();
 
+    function setFilterUp(
+        initColumn: DocumentsColumnsWithOpValues | DocumentsColumnsInt,
+        operator = "",
+        filterValue = ""
+    ) {
+        const newColumns = addOperatorsToColumn(columns);
+        setColumnsWithOperators(newColumns);
+
+        const foundColumn = newColumns.find(
+            (column) => column.field === initColumn.field
+        );
+
+        if (foundColumn) {
+            setSelectedColumn(foundColumn);
+
+            setOperatorsForSelectMenu(foundColumn.operatorsValues);
+
+            const isOperatorPresent = Boolean(operator)
+                ? operator
+                : foundColumn.operatorsValues[0].value;
+            const isfilterValPresent = Boolean(filterValue) ? filterValue : "";
+
+            setSelectedOperator(isOperatorPresent);
+            setFilterValue(isfilterValPresent);
+            setResetFilter(false);
+        }
+        console.log("init Filter");
+    }
+
     useEffect(() => {
         if (resetFilter && !isFilterOn) {
-            setFilterValue("");
-            const newColumns = addOperatorsToColumn(columns);
-            setColumnsWithOperators(newColumns);
-
-            const baseColumWithOperators = newColumns.find(
-                (column) => column.field === baseColumn.field
-            );
-
-            if (baseColumWithOperators) {
-                setSelectedColumn(baseColumWithOperators);
-
-                setOperatorsForSelectMenu(
-                    baseColumWithOperators.operatorsValues
-                );
-                setSelectedOperator(
-                    baseColumWithOperators.operatorsValues[0].value
-                );
-                setResetFilter(false);
-            }
-            console.log("RESET FILTER !!");
+            setFilterUp(baseColumn);
         }
     }, [resetFilter]);
 
-    // function setFilterUp(initColumn) {
-    //     const newColumns = addOperatorsToColumn(columns);
-    //     setColumnsWithOperators(newColumns);
-
-    //     const initColumnWithOperators = newColumns.find(
-    //         (column) => column.field === initColumn.field
-    //     );
-
-    //     if (initColumnWithOperators) {
-    //         setSelectedColumn(initColumnWithOperators);
-
-    //         setOperatorsForSelectMenu(initColumnWithOperators.operatorsValues);
-    //         setSelectedOperator(
-    //             initColumnWithOperators.operatorsValues[0].value
-    //         );
-    //         setResetFilter(false);
-    //     }
-    //     console.log("RESET FILTER !!");
-    // }
-
     useEffect(() => {
         if (isFilterOn && cachedFilter) {
-            const newColumns = addOperatorsToColumn(columns);
-            setColumnsWithOperators(newColumns);
-
-            const filteredColumWithOperators = newColumns.find(
-                (column) => column.field === cachedFilter.column.field
+            setFilterUp(
+                cachedFilter.column,
+                cachedFilter.operator,
+                cachedFilter.value
             );
-
-            if (filteredColumWithOperators) {
-                setSelectedColumn(filteredColumWithOperators);
-
-                setOperatorsForSelectMenu(
-                    filteredColumWithOperators.operatorsValues
-                );
-
-                setSelectedOperator(cachedFilter.operator);
-
-                setFilterValue(cachedFilter.value);
-                setResetFilter(false);
-            }
-            console.log("filter has been retrieved");
         }
     }, []);
 
     useEffect(() => {
-        if (columnsWithOperators.length > 0) {
+        if (columnsWithOperators.length > 0 && !cachedFilter) {
             const foundColumn = columnsWithOperators.find(
                 (column) => column.field === selectedColumn?.field
             );
