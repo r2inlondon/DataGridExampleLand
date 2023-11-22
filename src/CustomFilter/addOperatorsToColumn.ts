@@ -1,8 +1,8 @@
-import { getGridNumberOperatorsValues } from "./getGridNumberOperators";
 import {
     stringOperatorsValues,
     dateOperatorsValues,
-} from "./stringAndDateOperators";
+    numberOperatorsValues,
+} from "./operatorsValues";
 
 import {
     DocumentsColumnsInt,
@@ -21,7 +21,7 @@ export function addOperatorsToColumn(
             case "number":
                 return {
                     ...column,
-                    operatorsValues: getGridNumberOperatorsValues,
+                    operatorsValues: numberOperatorsValues,
                 };
             case "date":
                 return { ...column, operatorsValues: dateOperatorsValues };
