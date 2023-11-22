@@ -22,7 +22,9 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 return null;
             }
             return (value: string) => {
-                return value != null ? value.includes(filterItem.value) : false;
+                const userInput = _.lowerCase(filterItem.value);
+                const itemValue = _.lowerCase(value);
+                return value != null ? itemValue.includes(userInput) : false;
             };
         },
     },
@@ -33,9 +35,9 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 return null;
             }
             return (value: Item) => {
-                return value != null
-                    ? _.lowerCase(value) === lowerCase(filterItem.value)
-                    : false;
+                const userInput = _.lowerCase(filterItem.value);
+                const itemValue = _.lowerCase(value);
+                return value != null ? itemValue === userInput : false;
             };
         },
     },
@@ -46,11 +48,10 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 return null;
             }
             return (value: Item) => {
-                const lowerCaseValue = value !== null ? lowerCase(value) : "";
+                const userInput = _.lowerCase(filterItem.value);
+                const itemValue = _.lowerCase(value);
 
-                return value != null
-                    ? lowerCaseValue.startsWith(lowerCase(filterItem.value))
-                    : false;
+                return value != null ? itemValue.startsWith(userInput) : false;
             };
         },
     },
@@ -61,11 +62,10 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 return null;
             }
             return (value: Item) => {
-                const lowerCaseValue = value !== null ? lowerCase(value) : "";
+                const userInput = _.lowerCase(filterItem.value);
+                const itemValue = _.lowerCase(value);
 
-                return value != null
-                    ? lowerCaseValue.endsWith(lowerCase(filterItem.value))
-                    : false;
+                return value != null ? itemValue.endsWith(userInput) : false;
             };
         },
     },

@@ -41,7 +41,9 @@ function App() {
     const [filteredItems, setFilteredItems] = useState<StoredFilesType[]>([]);
     const [showGrid, setShowGrid] = useState(false);
     const [isFilterOn, setIsFilterOn] = useState<boolean>(false);
-    const [cachedFilter, setCachedFilter] = useState<CachedFilterType>();
+    const [cachedFilter, setCachedFilter] = useState<
+        CachedFilterType | undefined
+    >();
     // const [currentRowsInLabel, setCurrentRowsInLabel] = useState(0);
     // const [allRowsCount, setAllRowsCount] = useState(0);
     const [anchorEl, setAnchorEl] = useState(null);

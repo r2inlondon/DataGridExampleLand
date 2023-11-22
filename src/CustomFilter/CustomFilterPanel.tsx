@@ -31,7 +31,7 @@ type CustomFilterPanelProps = {
     setIsFilterOn: (isFilterOn: boolean) => void;
     isFilterOn: boolean;
     cachedFilter: CachedFilterType | undefined;
-    setCachedFilter: (filter: CachedFilterType) => void;
+    setCachedFilter: (filter: CachedFilterType | undefined) => void;
 };
 
 const useStyles = makeStyles((theme) => styles(theme));
@@ -168,6 +168,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
             (column) => column.headerName === columnName
         );
         setFilterValue("");
+        setCachedFilter(undefined);
         setSelectedColumn(column);
     }
 
