@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+import { parseISO, format } from "date-fns";
+
 import ListIcon from "@material-ui/icons/List";
 import ViewGridOutlineIcon from "mdi-react/ViewGridOutlineIcon";
 import CloudUploadOutlinedIcon from "@material-ui/icons/CloudUploadOutlined";
@@ -121,16 +123,15 @@ function App() {
             disableColumnMenu: true,
             width: 230,
             type: "date",
-            // valueFormatter: ({ value }) => {
-            //     if (value) {
-            //         const date = parseISO(value);
-            //         const formattedDate = format(date, "dd/MM/yyyy");
-            //         return formattedDate;
-            //     } else {
-            //         return "";
-            //     }
-            // },
-            // filterOperators: getGridNumberOperators()
+            valueFormatter: ({ value }: GridValueFormatterParams) => {
+                if (typeof value === "string") {
+                    const date = parseISO(value);
+                    const formattedDate = format(date, "dd/MM/yyyy");
+                    return formattedDate;
+                } else {
+                    return "";
+                }
+            },
         },
     ];
 

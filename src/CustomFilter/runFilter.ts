@@ -1,7 +1,17 @@
 import { DocumentsColumnsWithOpValues } from "../rootTypes/columnsTypes";
 import { StoredFilesType } from "../sampleData/storedFiles";
-import { stringFilterFunctions } from "./stringFilterFunctions";
-import { numberFilterFunctions } from "./numberFilterFunctions";
+import {
+    stringFilterFunctions,
+    StringFilterFunctionsInt,
+} from "./stringFilterFunctions";
+import {
+    numberFilterFunctions,
+    NumberFilterFunctionsInt,
+} from "./numberFilterFunctions";
+import {
+    dateFilterFunctions,
+    DateFilterFunctionsInt,
+} from "./dateFilterFunctions";
 
 type FilterModelType = {
     column: DocumentsColumnsWithOpValues;
@@ -9,19 +19,28 @@ type FilterModelType = {
     value: string;
 };
 
+type FilterFunctionsArrayType =
+    | StringFilterFunctionsInt[]
+    | NumberFilterFunctionsInt[]
+    | DateFilterFunctionsInt[];
+
 export function runFilter(
     data: StoredFilesType[],
     filterModel: FilterModelType
 ) {
-    // if (!data) return;
-
     const { column, operator, value } = filterModel;
 
     const filterItem = { value };
     const columnField = column.field;
     const columnType = column.type;
-    const filterFunctions =
-        columnType === "string" ? stringFilterFunctions : numberFilterFunctions;
+    const filterFunctionObj = {
+        string: stringFilterFunctions,
+        number: numberFilterFunctions,
+        date: dateFilterFunctions,
+    };
+
+    const filterFunctions: FilterFunctionsArrayType =
+        filterFunctionObj[columnType as keyof typeof filterFunctionObj];
 
     let result: StoredFilesType[] = [];
 

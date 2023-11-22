@@ -21,7 +21,7 @@ const DataGridContainer = ({ data, columns }: ContainerProps) => {
     // const baseColumn = columnsWithOperators[1];
 
     const classes = useStyles();
-    const rowsPerPage = 4;
+    const rowsPerPage = 5;
 
     return (
         <div

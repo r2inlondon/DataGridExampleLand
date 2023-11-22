@@ -1,4 +1,4 @@
-interface numberFilterFunctionsInt {
+export interface NumberFilterFunctionsInt {
     value: string;
     getApplyFilterFn: (
         newItem: FilterItemNumber
@@ -12,7 +12,7 @@ type FilterItemNumber = {
 
 type Item = number | string;
 
-export const numberFilterFunctions: numberFilterFunctionsInt[] = [
+export const numberFilterFunctions: NumberFilterFunctionsInt[] = [
     {
         value: "notEquals",
         getApplyFilterFn: (filterItem: FilterItemNumber) => {

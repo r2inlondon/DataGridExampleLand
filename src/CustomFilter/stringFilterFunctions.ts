@@ -1,6 +1,6 @@
 import _, { lowerCase } from "lodash";
 
-interface StringFilterFunctionsInt {
+export interface StringFilterFunctionsInt {
     value: string;
     getApplyFilterFn: (
         filterItem: FilterItem
