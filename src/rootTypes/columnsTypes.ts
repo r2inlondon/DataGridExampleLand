@@ -1,12 +1,11 @@
 export type DocumentsColumnsInt = {
     field: string;
     headerName: string;
-    disableColumnMenu: Boolean;
+    disableColumnMenu: boolean;
     type: string;
     width?: number;
     flex?: number;
     hide?: boolean;
-    // OperatorsValues?: OperatorsBaseInt[];
 };
 
 export interface DocumentsColumnsWithOpValues extends DocumentsColumnsInt {

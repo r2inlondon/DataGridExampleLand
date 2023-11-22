@@ -4,15 +4,15 @@ interface StringFilterFunctionsInt {
     value: string;
     getApplyFilterFn: (
         filterItem: FilterItem
-    ) => ((value: string) => boolean | null) | null;
+    ) => ((value: number | string) => boolean | null) | null;
     requiresFilterValue?: boolean;
 }
 
 type FilterItem = {
-    value: string;
+    value: number | string;
 };
 
-type Item = string;
+type Item = string | number;
 
 export const stringFilterFunctions: StringFilterFunctionsInt[] = [
     {
@@ -21,9 +21,17 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
             if (filterItem.value === undefined) {
                 return null;
             }
-            return (value: string) => {
+            return (value: Item) => {
+                if (
+                    typeof value !== "string" ||
+                    typeof filterItem.value !== "string"
+                ) {
+                    return null;
+                }
+
                 const userInput = _.lowerCase(filterItem.value);
                 const itemValue = _.lowerCase(value);
+
                 return value != null ? itemValue.includes(userInput) : false;
             };
         },
@@ -35,6 +43,12 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 return null;
             }
             return (value: Item) => {
+                if (
+                    typeof value !== "string" ||
+                    typeof filterItem.value !== "string"
+                ) {
+                    return null;
+                }
                 const userInput = _.lowerCase(filterItem.value);
                 const itemValue = _.lowerCase(value);
                 return value != null ? itemValue === userInput : false;
@@ -48,6 +62,12 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 return null;
             }
             return (value: Item) => {
+                if (
+                    typeof value !== "string" ||
+                    typeof filterItem.value !== "string"
+                ) {
+                    return null;
+                }
                 const userInput = _.lowerCase(filterItem.value);
                 const itemValue = _.lowerCase(value);
 
@@ -62,6 +82,12 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 return null;
             }
             return (value: Item) => {
+                if (
+                    typeof value !== "string" ||
+                    typeof filterItem.value !== "string"
+                ) {
+                    return null;
+                }
                 const userInput = _.lowerCase(filterItem.value);
                 const itemValue = _.lowerCase(value);
 

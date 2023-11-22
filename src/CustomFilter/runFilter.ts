@@ -1,6 +1,7 @@
 import { DocumentsColumnsWithOpValues } from "../rootTypes/columnsTypes";
 import { StoredFilesType } from "../sampleData/storedFiles";
 import { stringFilterFunctions } from "./stringFilterFunctions";
+import { numberFilterFunctions } from "./numberFilterFunctions";
 
 type FilterModelType = {
     column: DocumentsColumnsWithOpValues;
@@ -18,21 +19,21 @@ export function runFilter(
 
     const filterItem = { value };
     const columnField = column.field;
+    const columnType = column.type;
+    const filterFunctions =
+        columnType === "string" ? stringFilterFunctions : numberFilterFunctions;
+
     let result: StoredFilesType[] = [];
 
-    const filterOperator = stringFilterFunctions.find(
-        (fnc) => fnc.value == operator
-    );
+    const filterOperator = filterFunctions.find((fnc) => fnc.value == operator);
 
     if (filterOperator) {
         const filterFunction = filterOperator.getApplyFilterFn(filterItem);
 
         if (filterFunction) {
             result = data.filter((item) =>
-                //TODO: string need to get removed when working on the numberic Col
-                filterFunction(
-                    String(item[columnField as keyof StoredFilesType])
-                )
+                //TODO: StoredFilesType will need to get renamed
+                filterFunction(item[columnField as keyof StoredFilesType])
             );
         }
     }

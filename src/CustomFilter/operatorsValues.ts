@@ -20,6 +20,6 @@ export const numberOperatorsValues = [
     { value: "equals", label: "Equals" },
     { value: "greaterThan", label: "Greater than" },
     { value: "lessThan", label: "Less than" },
-    { value: "isEmpty", label: "Is empty" },
-    { value: "isNotEmpty", label: "Is not empty" },
+    // { value: "isEmpty", label: "Is empty" },
+    // { value: "isNotEmpty", label: "Is not empty" },
 ];

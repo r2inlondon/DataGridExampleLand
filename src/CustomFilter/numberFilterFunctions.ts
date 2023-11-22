@@ -1,82 +1,110 @@
-export const numberFilterFunctions = [
+interface numberFilterFunctionsInt {
+    value: string;
+    getApplyFilterFn: (
+        newItem: FilterItemNumber
+    ) => ((value: number | string) => boolean | null) | null;
+    requiresFilterValue?: boolean;
+}
+
+type FilterItemNumber = {
+    value: number | string;
+};
+
+type Item = number | string;
+
+export const numberFilterFunctions: numberFilterFunctionsInt[] = [
     {
         value: "notEquals",
-        label: "Not equals",
-        // getApplyFilterFn: (filterItem) => {
-        //     if (filterItem.value === undefined) {
-        //         return null;
-        //     }
-        //     return ({ value }) => {
-        //         return value != null
-        //             ? Number(value) !== Number(filterItem.value)
-        //             : true;
-        //     };
-        // },
+        getApplyFilterFn: (filterItem: FilterItemNumber) => {
+            if (filterItem.value === undefined) {
+                return null;
+            }
+            return (value: Item) => {
+                const userInput =
+                    typeof filterItem.value === "string"
+                        ? Number(filterItem.value.replace(/,/g, ""))
+                        : filterItem.value;
+
+                return value != null
+                    ? Number(value) !== Number(userInput)
+                    : true;
+            };
+        },
     },
     {
         value: "equals",
-        label: "Equals",
-        // getApplyFilterFn: (filterItem) => {
-        //     if (filterItem.value === undefined) {
-        //         return null;
-        //     }
-        //     return ({ value }) => {
-        //         return value != null
-        //             ? Number(value) === Number(filterItem.value)
-        //             : false;
-        //     };
-        // },
+        getApplyFilterFn: (filterItem: FilterItemNumber) => {
+            if (filterItem.value === undefined) {
+                return null;
+            }
+            return (value: Item) => {
+                const userInput =
+                    typeof filterItem.value === "string"
+                        ? Number(filterItem.value.replace(/,/g, ""))
+                        : filterItem.value;
+
+                return value != null
+                    ? Number(value) === Number(userInput)
+                    : false;
+            };
+        },
     },
     {
         value: "greaterThan",
-        label: "Greater than",
-        // getApplyFilterFn: (filterItem) => {
-        //     if (filterItem.value === undefined) {
-        //         return null;
-        //     }
-        //     return ({ value }) => {
-        //         return value != null
-        //             ? Number(value) > Number(filterItem.value)
-        //             : false;
-        //     };
-        // },
+        getApplyFilterFn: (filterItem: FilterItemNumber) => {
+            if (filterItem.value === undefined) {
+                return null;
+            }
+            return (value: Item) => {
+                const userInput =
+                    typeof filterItem.value === "string"
+                        ? Number(filterItem.value.replace(/,/g, ""))
+                        : filterItem.value;
+
+                return value != null
+                    ? Number(value) > Number(userInput)
+                    : false;
+            };
+        },
     },
     {
         value: "lessThan",
-        label: "Less than",
-        // getApplyFilterFn: (filterItem) => {
-        //     if (filterItem.value === undefined) {
-        //         return null;
-        //     }
-        //     return ({ value }) => {
-        //         return value != null
-        //             ? Number(value) < Number(filterItem.value)
-        //             : false;
-        //     };
-        // },
-    },
-    // ... more operators like lessThan, greaterThanOrEqual, lessThanOrEqual
-    {
-        value: "isEmpty",
-        label: "Is empty",
-        // getApplyFilterFn: () => {
-        //     return ({ value }) => {
-        //         return value === undefined || value === null || value === "";
-        //     };
-        // },
+        getApplyFilterFn: (filterItem: FilterItemNumber) => {
+            if (filterItem.value === undefined) {
+                return null;
+            }
+            return (value: Item) => {
+                const userInput =
+                    typeof filterItem.value === "string"
+                        ? Number(filterItem.value.replace(/,/g, ""))
+                        : filterItem.value;
 
-        // requiresFilterValue: false,
+                return value != null
+                    ? Number(value) < Number(userInput)
+                    : false;
+            };
+        },
     },
-    {
-        value: "isNotEmpty",
-        label: "Is not empty",
-        // getApplyFilterFn: () => {
-        //     return ({ value }) => {
-        //         return value !== undefined && value !== null && value !== "";
-        //     };
-        // },
+    // // ... more operators like lessThan, greaterThanOrEqual, lessThanOrEqual
+    // {
+    //     value: "isEmpty",
+    //     getApplyFilterFn: () => {
+    //         return ({ value }) => {
+    //             return value === undefined || value === null || value === "";
+    //         };
+    //     },
 
-        // requiresFilterValue: false,
-    },
+    //     requiresFilterValue: false,
+    // },
+    // {
+    //     value: "isNotEmpty",
+    //     getApplyFilterFn: () => {
+    //         return ({ value }) => {
+    //             return value !== undefined && value !== null && value !== "";
+    //         };
+    //     },
+
+    //     requiresFilterValue: false,
+    // },
     // Add more custom number operators as needed
 ];

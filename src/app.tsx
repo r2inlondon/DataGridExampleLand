@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ListIcon from "@material-ui/icons/List";
 import ViewGridOutlineIcon from "mdi-react/ViewGridOutlineIcon";
 import CloudUploadOutlinedIcon from "@material-ui/icons/CloudUploadOutlined";
+import { GridColDef, GridValueFormatterParams } from "@mui/x-data-grid";
 
 import {
     Box,
@@ -106,6 +107,13 @@ function App() {
             disableColumnMenu: true,
             width: 130,
             type: "number",
+            valueFormatter: ({ value }: GridValueFormatterParams) => {
+                if (value) {
+                    return Number(value).toLocaleString();
+                } else {
+                    return "";
+                }
+            },
         },
         {
             field: "created_at",
