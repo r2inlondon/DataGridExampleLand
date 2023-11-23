@@ -210,7 +210,6 @@ const styles = (theme) => ({
     },
     gridContainer: {
         backgroundColor: "white",
-        // width: "100%",
         position: "relative",
     },
 });
