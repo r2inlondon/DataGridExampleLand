@@ -13,30 +13,16 @@ import {
     Typography,
     makeStyles,
     IconButton,
-    Badge,
-    Popover,
 } from "@material-ui/core";
 
+// import DataGridComponent from "./data-grid/DataGridComp";
 import DocumentItem from "./grid/DocumentItem";
-
-import FilterListIcon from "@material-ui/icons/FilterList";
+import DataGridContainer from "./data-grid/DataGridContainer";
+import CustomFilter from "./CustomFilter/CustomFilter";
 
 import { storedFiles, StoredFilesType } from "./sampleData/storedFiles";
-import CustomFilterPanel from "./CustomFilter/CustomFilterPanel";
-// import DataGridComponent from "./data-grid/DataGridComp";
-
-import DataGridContainer from "./data-grid/DataGridContainer";
-
-import { DocumentsColumnsInt } from "./rootTypes/columnsTypes";
-import { DocumentsColumnsWithOpValues } from "./rootTypes/columnsTypes";
 
 const useStyles = makeStyles((theme) => styles(theme));
-
-export type CachedFilterType = {
-    column: DocumentsColumnsWithOpValues;
-    operator: string;
-    value: string;
-};
 
 function App() {
     const classes = useStyles();
@@ -44,9 +30,6 @@ function App() {
     const [filteredItems, setFilteredItems] = useState<StoredFilesType[]>([]);
     const [showGrid, setShowGrid] = useState(false);
     const [isFilterOn, setIsFilterOn] = useState<boolean>(false);
-    const [cachedFilter, setCachedFilter] = useState<
-        CachedFilterType | undefined
-    >();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -134,8 +117,6 @@ function App() {
         },
     ];
 
-    const baseColumn: DocumentsColumnsInt = gridColumns[1];
-
     const uploadButton = (
         <Button color="secondary" variant="outlined" component="label">
             <CloudUploadOutlinedIcon />
@@ -167,48 +148,20 @@ function App() {
                 </Typography>
                 <div className={classes.iconsHeader}>
                     {uploadButton}
-                    <IconButton
-                        size="small"
-                        color="primary"
-                        id={open ? "simple-popover" : undefined}
-                        aria-haspopup="true"
-                        onClick={handlePopoverOpen}
-                    >
-                        <Badge
-                            badgeContent={isFilterOn ? 1 : 0}
-                            color="primary"
-                        >
-                            <FilterListIcon />
-                        </Badge>
-                    </IconButton>
-                    {gridAndListButton}
-                </div>
-                <Popover
-                    id="simple-popover"
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handlePopoverClose}
-                    anchorOrigin={{
-                        vertical: "bottom",
-                        horizontal: "left",
-                    }}
-                    transformOrigin={{
-                        vertical: "top",
-                        horizontal: "left",
-                    }}
-                >
-                    <CustomFilterPanel
-                        data={documents}
+                    <CustomFilter
+                        documents={documents}
                         filteredItems={filteredItems}
                         setFilteredItems={setFilteredItems}
                         columns={gridColumns}
-                        baseColumn={baseColumn}
-                        setIsFilterOn={setIsFilterOn}
+                        handlePopoverOpen={handlePopoverOpen}
+                        open={open}
                         isFilterOn={isFilterOn}
-                        cachedFilter={cachedFilter}
-                        setCachedFilter={setCachedFilter}
+                        setIsFilterOn={setIsFilterOn}
+                        anchorEl={anchorEl}
+                        handlePopoverClose={handlePopoverClose}
                     />
-                </Popover>
+                    {gridAndListButton}
+                </div>
             </div>
             {showGrid && (
                 <div className={classes.grid}>
