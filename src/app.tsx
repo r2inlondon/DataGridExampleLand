@@ -159,7 +159,7 @@ function App() {
         <div className={classes.mainContainer}>
             <div className={classes.header}>
                 <Typography color="textSecondary" variant="body2">
-                    {`Showing ${documents.length} out of ${documents.length} documents`}
+                    {`Showing ${visibleItems.length} out of ${filteredItems.length} documents`}
                 </Typography>
                 <div className={classes.iconsHeader}>
                     {uploadButton}
