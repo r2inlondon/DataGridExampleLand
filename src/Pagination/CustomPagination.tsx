@@ -9,14 +9,14 @@ type ComponentProps = {
     setCurrentPage: (page: number) => void;
 };
 
+const useStyles = makeStyles((theme) => styles(theme));
+
 function CustomPagination({
     totalPages,
     currentPage,
     setCurrentPage,
 }: ComponentProps) {
     const classes = useStyles();
-
-    // console.log("footer:", pageCount);
 
     return (
         <div className={classes.root}>
@@ -30,14 +30,17 @@ function CustomPagination({
                 variant="outlined"
                 shape="rounded"
                 renderItem={(props2) => (
-                    <PaginationItem {...props2} component="div" />
+                    <PaginationItem
+                        {...props2}
+                        className={classes.paginationItem}
+                    />
                 )}
             />
         </div>
     );
 }
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme: any) => ({
     root: {
         display: "flex",
         justifyContent: "center",
@@ -53,6 +56,12 @@ const useStyles = makeStyles((theme) => ({
             color: "white !important",
         },
     },
-}));
+    paginationItem: {
+        // Add styles to disable ripple effect
+        "& .MuiTouchRipple-root": {
+            display: "none",
+        },
+    },
+});
 
 export default CustomPagination;

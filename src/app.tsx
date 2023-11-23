@@ -48,29 +48,29 @@ function App() {
     useEffect(() => {
         const startIndex = (currentPage - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-        // Assuming 'data' is your array of items
         const slicedItems = filteredItems.slice(startIndex, endIndex);
-        console.log(slicedItems);
-        // setVisibleItems(items)
-    }, [filteredItems]);
+        setVisibleItems(slicedItems);
+    }, [filteredItems, currentPage]);
 
     useEffect(() => {
         if (filteredItems.length !== documents.length) {
-            console.log("filter ON");
             setIsFilterOn(true);
         } else {
-            console.log("filter OFF");
             setIsFilterOn(false);
         }
     }, [filteredItems]);
 
-    const handlePopoverOpen = (event: any) => {
-        setAnchorEl(event.currentTarget);
-    };
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [totalItems]);
 
-    const handlePopoverClose = () => {
+    function handlePopoverOpen(event: any) {
+        setAnchorEl(event.currentTarget);
+    }
+
+    function handlePopoverClose() {
         setAnchorEl(null);
-    };
+    }
 
     function handleDelete(id: any) {
         console.log(id);
@@ -180,7 +180,7 @@ function App() {
             </div>
             {showGrid && (
                 <div className={classes.grid}>
-                    {filteredItems.map((document) => (
+                    {visibleItems.map((document) => (
                         <DocumentItem
                             key={document.filename}
                             document={document}
@@ -191,7 +191,7 @@ function App() {
             )}
             {!showGrid && (
                 <DataGridContainer
-                    data={filteredItems}
+                    data={visibleItems}
                     columns={gridColumns}
                     // onDelete={handleDelete}
                 />
