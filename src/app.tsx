@@ -47,8 +47,7 @@ function App() {
     const [cachedFilter, setCachedFilter] = useState<
         CachedFilterType | undefined
     >();
-    // const [currentRowsInLabel, setCurrentRowsInLabel] = useState(0);
-    // const [allRowsCount, setAllRowsCount] = useState(0);
+
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -208,9 +207,6 @@ function App() {
                         isFilterOn={isFilterOn}
                         cachedFilter={cachedFilter}
                         setCachedFilter={setCachedFilter}
-                        // onClear={onClear}
-                        // currentRowsInLabel={currentRowsInLabel}
-                        // allRowsCount={allRowsCount}
                     />
                 </Popover>
             </div>
@@ -225,7 +221,6 @@ function App() {
                     ))}
                 </div>
             )}
-            {/* {!showGrid && <DocumentsTable documents={documents} onDelete={handleDelete} />} */}
             {!showGrid && (
                 <DataGridContainer
                     data={filteredItems}
