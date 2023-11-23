@@ -19,6 +19,7 @@ import {
 import DocumentItem from "./grid/DocumentItem";
 import DataGridContainer from "./data-grid/DataGridContainer";
 import CustomFilter from "./CustomFilter/CustomFilter";
+import CustomPagination from "./Pagination/CustomPagination";
 
 import { storedFiles, StoredFilesType } from "./sampleData/storedFiles";
 
@@ -30,14 +31,28 @@ function App() {
     const [filteredItems, setFilteredItems] = useState<StoredFilesType[]>([]);
     const [showGrid, setShowGrid] = useState(false);
     const [isFilterOn, setIsFilterOn] = useState<boolean>(false);
-
+    const [visibleItems, setVisibleItems] = useState<StoredFilesType[]>([]);
+    const [currentPage, setCurrentPage] = useState(1);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    const totalItems = filteredItems.length;
+    const itemsPerPage = 3;
+    const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     useEffect(() => {
         setDocuments(storedFiles);
         setFilteredItems(storedFiles);
     }, [storedFiles]);
+
+    useEffect(() => {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        // Assuming 'data' is your array of items
+        const slicedItems = filteredItems.slice(startIndex, endIndex);
+        console.log(slicedItems);
+        // setVisibleItems(items)
+    }, [filteredItems]);
 
     useEffect(() => {
         if (filteredItems.length !== documents.length) {
@@ -181,6 +196,11 @@ function App() {
                     // onDelete={handleDelete}
                 />
             )}
+            <CustomPagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
         </div>
     );
 }

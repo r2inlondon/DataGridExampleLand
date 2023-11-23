@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { DataGrid } from "@mui/x-data-grid";
 
-import CustomPagination from "./CustomPagination";
+import CustomPagination from "../Pagination/CustomPagination";
 import ToolbarContainer from "../CustomFilter/ToolbarContainer";
 
 import { DocumentsColumnsInt } from "../rootTypes/columnsTypes";
