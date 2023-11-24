@@ -30,7 +30,7 @@ type ComponentProps = {
     setIsFilterOn: (isFilterOn: boolean) => void;
 };
 
-function CustomFilter(props: ComponentProps) {
+function FilterContainer(props: ComponentProps) {
     const {
         documents,
         filteredItems,
@@ -93,4 +93,4 @@ function CustomFilter(props: ComponentProps) {
     );
 }
 
-export default CustomFilter;
+export default FilterContainer;

@@ -18,7 +18,7 @@ import {
 // import DataGridComponent from "./data-grid/DataGridComp";
 import DocumentItem from "./grid/DocumentItem";
 import DataGridContainer from "./data-grid/DataGridContainer";
-import CustomFilter from "./CustomFilter/CustomFilter";
+import FilterContainer from "./CustomFilter/FilterContainer";
 import CustomPagination from "./Pagination/CustomPagination";
 
 import { storedFiles, StoredFilesType } from "./sampleData/storedFiles";
@@ -163,7 +163,7 @@ function App() {
                 </Typography>
                 <div className={classes.iconsHeader}>
                     {uploadButton}
-                    <CustomFilter
+                    <FilterContainer
                         documents={documents}
                         filteredItems={filteredItems}
                         setFilteredItems={setFilteredItems}

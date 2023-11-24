@@ -6,7 +6,7 @@ import {
     DocumentsColumnsWithOpValues,
 } from "../rootTypes/columnsTypes";
 import { OperatorsBaseInt } from "../rootTypes/columnsTypes";
-import { CachedFilterType } from "./CustomFilter";
+import { CachedFilterType } from "./FilterContainer";
 import { addOperatorsToColumn } from "./addOperatorsToColumn";
 import { runFilter } from "./runFilter";
 import FilterForm from "./FilterForm";
