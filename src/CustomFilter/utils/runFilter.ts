@@ -1,5 +1,5 @@
-import { DocumentsColumnsWithOpValues } from "../rootTypes/columnsTypes";
-import { StoredFilesType } from "../sampleData/storedFiles";
+import { DocumentsColumnsWithOpValues } from "../../rootTypes/columnsTypes";
+import { StoredFilesType } from "../../sampleData/storedFiles";
 import {
     stringFilterFunctions,
     StringFilterFunctionsInt,

@@ -7,8 +7,8 @@ import {
 } from "../rootTypes/columnsTypes";
 import { OperatorsBaseInt } from "../rootTypes/columnsTypes";
 import { CachedFilterType } from "./FilterContainer";
-import { addOperatorsToColumn } from "./addOperatorsToColumn";
-import { runFilter } from "./runFilter";
+import { addOperatorsToColumn } from "./utils/addOperatorsToColumn";
+import { runFilter } from "./utils/runFilter";
 import FilterForm from "./FilterForm";
 
 type CustomFilterPanelProps = {
