@@ -6,7 +6,7 @@ import FilterListIcon from "@material-ui/icons/FilterList";
 import {
     DocumentsColumnsInt,
     DocumentsColumnsWithOpValues,
-} from "../rootTypes/columnsTypes";
+} from "./utils/columnsTypes";
 import { StoredFilesType } from "../sampleData/storedFiles";
 
 import CustomFilterPanel from "./CustomFilterPanel";

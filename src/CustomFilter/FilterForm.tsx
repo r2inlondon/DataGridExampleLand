@@ -11,8 +11,10 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import ClearIcon from "@material-ui/icons/Clear";
 
-import { DocumentsColumnsWithOpValues } from "../rootTypes/columnsTypes";
-import { OperatorsBaseInt } from "../rootTypes/columnsTypes";
+import {
+    DocumentsColumnsWithOpValues,
+    OperatorsBaseInt,
+} from "./utils/columnsTypes";
 
 type ComponentProps = {
     handleClearFilter: () => void;

@@ -1,4 +1,4 @@
-import { DocumentsColumnsWithOpValues } from "../../rootTypes/columnsTypes";
+import { DocumentsColumnsWithOpValues } from "./columnsTypes";
 import { StoredFilesType } from "../../sampleData/storedFiles";
 import {
     stringFilterFunctions,

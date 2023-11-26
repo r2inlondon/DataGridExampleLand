@@ -3,7 +3,6 @@ import React from "react";
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { DocumentsColumnsInt } from "../rootTypes/columnsTypes";
 import { StoredFilesType } from "../sampleData/storedFiles";
 
 // import DataGridComponent from "./DataGridComp";

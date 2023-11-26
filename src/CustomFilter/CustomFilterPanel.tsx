@@ -4,8 +4,8 @@ import { StoredFilesType } from "../sampleData/storedFiles";
 import {
     DocumentsColumnsInt,
     DocumentsColumnsWithOpValues,
-} from "../rootTypes/columnsTypes";
-import { OperatorsBaseInt } from "../rootTypes/columnsTypes";
+} from "./utils/columnsTypes";
+import { OperatorsBaseInt } from "./utils/columnsTypes";
 import { CachedFilterType } from "./FilterContainer";
 import { addOperatorsToColumn } from "./utils/addOperatorsToColumn";
 import { runFilter } from "./utils/runFilter";

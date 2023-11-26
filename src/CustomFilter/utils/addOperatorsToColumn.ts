@@ -7,7 +7,7 @@ import {
 import {
     DocumentsColumnsInt,
     DocumentsColumnsWithOpValues,
-} from "../../rootTypes/columnsTypes";
+} from "./columnsTypes";
 
 export function addOperatorsToColumn(
     columns: DocumentsColumnsInt[]
