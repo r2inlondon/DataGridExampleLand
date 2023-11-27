@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
             borderBottomStyle: "solid",
             borderBottomColor: "black",
         },
+        "& .MuiDataGrid-cell:focus-within": {
+            outline: "none",
+        },
         "& .MuiDataGrid-columnSeparator": {
             display: "none",
         },
@@ -68,6 +71,10 @@ const useStyles = makeStyles((theme) => ({
         "& .MuiDataGrid-columnHeaderTitle": {
             lineHeight: "large",
         },
+        "& .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-columnHeader:focus":
+            {
+                outline: "none",
+            },
     },
     gridContainer: {
         backgroundColor: "white",
