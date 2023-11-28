@@ -4,6 +4,7 @@ import { parseISO, format } from "date-fns";
 
 import ListIcon from "@material-ui/icons/List";
 import ViewGridOutlineIcon from "mdi-react/ViewGridOutlineIcon";
+import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import CloudUploadOutlinedIcon from "@material-ui/icons/CloudUploadOutlined";
 import { GridColDef, GridValueFormatterParams } from "@mui/x-data-grid";
 
@@ -72,8 +73,9 @@ function App() {
         setAnchorEl(null);
     }
 
-    function handleDelete(id: any) {
-        console.log(id);
+    function handleDelete(id: number) {
+        setDocuments((prev) => prev.filter((item) => item.id !== id));
+        setFilteredItems((prev) => prev.filter((item) => item.id !== id));
     }
 
     const gridColumns = [
@@ -129,6 +131,18 @@ function App() {
                     return "";
                 }
             },
+        },
+        {
+            field: "delete",
+            headerName: " ",
+            type: "actions",
+            width: 50,
+            disableColumnMenu: true,
+            renderCell: ({ row }: GridValueFormatterParams) => (
+                <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                    <DeleteOutlineIcon color="error" />
+                </IconButton>
+            ),
         },
     ];
 
