@@ -6,7 +6,7 @@ import {
     DocumentsColumnsWithOpValues,
 } from "./utils/columnsTypes";
 import { OperatorsBaseInt } from "./utils/columnsTypes";
-import { CachedFilterType } from "./FilterContainer";
+import { SavedFilterType } from "./FilterContainer";
 import { addOperatorsToColumn } from "./utils/addOperatorsToColumn";
 import { runFilter } from "./utils/runFilter";
 import FilterForm from "./FilterForm";
@@ -19,8 +19,8 @@ type CustomFilterPanelProps = {
     setFilteredItems: (items: StoredFilesType[]) => void;
     setIsFilterOn: (isFilterOn: boolean) => void;
     isFilterOn: boolean;
-    cachedFilter: CachedFilterType | undefined;
-    setCachedFilter: (filter: CachedFilterType | undefined) => void;
+    cachedFilter: SavedFilterType | undefined;
+    setCachedFilter: (filter: SavedFilterType | undefined) => void;
 };
 
 const CustomFilterPanel = (props: CustomFilterPanelProps) => {

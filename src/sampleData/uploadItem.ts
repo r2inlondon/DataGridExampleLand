@@ -5,12 +5,12 @@ export function uploadItem(items: StoredFilesType[]) {
     const sortedItems = _.sortBy(items, ["id"]);
     const lastItem = sortedItems.pop();
     const newId = lastItem ? lastItem.id + 1 : 1;
-    const fileExtension = ["Word file", "Excel file", "PDF file"];
+    const fileExtension = ["Word file", "Excel file", "PDF file", "Image file"];
 
     const newItem = {
         id: newId,
         filename: `file${newId}`,
-        filetype: fileExtension[_.random(0, 2)],
+        filetype: fileExtension[_.random(0, fileExtension.length - 1)],
         size: _.random(100, 10000),
         created_at: new Date().toISOString(),
     };

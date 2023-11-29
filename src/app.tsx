@@ -62,17 +62,17 @@ function App() {
             console.log("Turning filter ON");
         }
 
-        // if (filteredItems.length !== documents.length && isFilterOn) {
-        //     setIsFilterOn(true);
-        //     setCurrentPage(1);
-        //     console.log("filter updated");
-        // }
+        if (filteredItems.length !== documents.length && isFilterOn) {
+            setIsFilterOn(true);
+            setCurrentPage(1);
+            console.log("filter updated");
+        }
 
         if (filteredItems.length === documents.length && isFilterOn) {
             setIsFilterOn(false);
             console.log("Turning filter OFF");
         }
-    }, [filteredItems]);
+    }, [totalItems]);
 
     useEffect(() => {
         const filterStatus = filteredItems.length !== documents.length;

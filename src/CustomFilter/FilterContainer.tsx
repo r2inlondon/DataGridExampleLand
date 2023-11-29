@@ -11,7 +11,7 @@ import { StoredFilesType } from "../sampleData/storedFiles";
 
 import CustomFilterPanel from "./CustomFilterPanel";
 
-export type CachedFilterType = {
+export type SavedFilterType = {
     column: DocumentsColumnsWithOpValues;
     operator: string;
     value: string;
@@ -44,8 +44,8 @@ function FilterContainer(props: ComponentProps) {
         setIsFilterOn,
     } = props;
 
-    const [cachedFilter, setCachedFilter] = useState<
-        CachedFilterType | undefined
+    const [savedFilterSearch, setSavedFilterSearch] = useState<
+        SavedFilterType | undefined
     >();
 
     const baseColumn: DocumentsColumnsInt = columns[1];
@@ -85,8 +85,8 @@ function FilterContainer(props: ComponentProps) {
                     baseColumn={baseColumn}
                     setIsFilterOn={setIsFilterOn}
                     isFilterOn={isFilterOn}
-                    cachedFilter={cachedFilter}
-                    setCachedFilter={setCachedFilter}
+                    cachedFilter={savedFilterSearch}
+                    setCachedFilter={setSavedFilterSearch}
                 />
             </Popover>
         </Fragment>
