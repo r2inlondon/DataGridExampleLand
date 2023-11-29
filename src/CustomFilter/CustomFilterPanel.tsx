@@ -78,7 +78,6 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
             setFilterValue(isfilterValPresent);
             setResetFilter(false);
         }
-        console.log("init Filter");
     }
 
     useEffect(() => {

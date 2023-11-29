@@ -12,7 +12,7 @@ export const storedFiles: StoredFilesType[] = [
         filename: "libros.xls",
         filetype: "Excel file",
         size: 4324521,
-        created_at: "2023-10-21T18:54:23.081Z",
+        created_at: "2023-11-21T18:54:23.081Z",
     },
     {
         id: 2,
@@ -41,5 +41,19 @@ export const storedFiles: StoredFilesType[] = [
         filetype: "Image file",
         size: 2800521,
         created_at: "2023-11-14T18:07:15.732Z",
+    },
+    {
+        id: 6,
+        filename: "extensions.doc",
+        filetype: "Word file",
+        size: 4800521,
+        created_at: "2023-11-22T18:07:15.732Z",
+    },
+    {
+        id: 7,
+        filename: "logo.csv",
+        filetype: "Image file",
+        size: 700521,
+        created_at: "2023-11-01T18:07:15.732Z",
     },
 ];

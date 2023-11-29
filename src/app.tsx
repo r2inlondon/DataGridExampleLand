@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { parseISO, format } from "date-fns";
+import { parseISO, format, set } from "date-fns";
 
 import ListIcon from "@material-ui/icons/List";
 import ViewGridOutlineIcon from "mdi-react/ViewGridOutlineIcon";
@@ -16,13 +16,13 @@ import {
     IconButton,
 } from "@material-ui/core";
 
-// import DataGridComponent from "./data-grid/DataGridComp";
 import DocumentItem from "./grid/DocumentItem";
 import DataGridContainer from "./data-grid/DataGridContainer";
 import FilterContainer from "./CustomFilter/FilterContainer";
 import CustomPagination from "./Pagination/CustomPagination";
 
 import { storedFiles, StoredFilesType } from "./sampleData/storedFiles";
+import { uploadItem } from "./sampleData/uploadItem";
 
 const useStyles = makeStyles((theme) => styles(theme));
 
@@ -35,6 +35,8 @@ function App() {
     const [visibleItems, setVisibleItems] = useState<StoredFilesType[]>([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [isFileUploaded, setIsFileUploaded] = useState(false);
+    const [isFileDeleted, setIsFiledDeleted] = useState(false);
     const open = Boolean(anchorEl);
 
     const totalItems = filteredItems.length;
@@ -54,15 +56,53 @@ function App() {
     }, [filteredItems, currentPage]);
 
     useEffect(() => {
-        if (filteredItems.length !== documents.length) {
+        if (filteredItems.length !== documents.length && !isFilterOn) {
             setIsFilterOn(true);
-        } else {
+            setCurrentPage(1);
+            console.log("Turning filter ON");
+        }
+
+        // if (filteredItems.length !== documents.length && isFilterOn) {
+        //     setIsFilterOn(true);
+        //     setCurrentPage(1);
+        //     console.log("filter updated");
+        // }
+
+        if (filteredItems.length === documents.length && isFilterOn) {
             setIsFilterOn(false);
+            console.log("Turning filter OFF");
         }
     }, [filteredItems]);
 
     useEffect(() => {
-        setCurrentPage(1);
+        const filterStatus = filteredItems.length !== documents.length;
+        const deleteMovePage =
+            isFileDeleted &&
+            !isFileUploaded &&
+            visibleItems.length === 1 &&
+            currentPage > 1;
+
+        const deleteDontMovePage =
+            isFileDeleted && !isFileUploaded && visibleItems.length !== 1;
+
+        if (deleteMovePage) {
+            setCurrentPage(currentPage - 1);
+            setIsFiledDeleted(false);
+            console.log("Deleted");
+        }
+
+        if (deleteDontMovePage) setIsFiledDeleted(false);
+
+        if (isFileUploaded && visibleItems.length === itemsPerPage) {
+            setIsFileUploaded(false);
+            setCurrentPage(totalPages);
+            console.log("uploaded One");
+        }
+
+        if (isFileUploaded && visibleItems.length !== itemsPerPage) {
+            setIsFileUploaded(false);
+            console.log("uploaded Two");
+        }
     }, [totalItems]);
 
     function handlePopoverOpen(event: any) {
@@ -73,9 +113,25 @@ function App() {
         setAnchorEl(null);
     }
 
+    function handleUpload() {
+        const newItem = uploadItem(documents);
+        const updatedDocuments = [...documents, newItem];
+        const updatedFilteredItems = [...filteredItems, newItem];
+
+        setDocuments(updatedDocuments);
+        setFilteredItems(isFilterOn ? updatedDocuments : updatedFilteredItems);
+        setIsFileUploaded(true);
+    }
+
     function handleDelete(id: number) {
-        setDocuments((prev) => prev.filter((item) => item.id !== id));
-        setFilteredItems((prev) => prev.filter((item) => item.id !== id));
+        const updatedDocuments = documents.filter((item) => item.id !== id);
+        const updatedFilteredItems = filteredItems.filter(
+            (item) => item.id !== id
+        );
+
+        setDocuments(updatedDocuments);
+        setFilteredItems(isFilterOn ? updatedDocuments : updatedFilteredItems);
+        setIsFiledDeleted(true);
     }
 
     const gridColumns = [
@@ -147,17 +203,16 @@ function App() {
     ];
 
     const uploadButton = (
-        <Button color="secondary" variant="outlined" component="label">
+        <Button
+            color="secondary"
+            variant="outlined"
+            component="label"
+            onClick={handleUpload}
+        >
             <CloudUploadOutlinedIcon />
             <Box component="span" ml={1}>
                 Upload
             </Box>
-            <input
-                type="file"
-                // accept="image/*"
-                hidden
-                // onChange={handleChange}
-            />
         </Button>
     );
 
