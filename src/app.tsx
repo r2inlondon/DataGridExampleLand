@@ -75,15 +75,9 @@ function App() {
     }, [totalItems]);
 
     useEffect(() => {
-        const filterStatus = filteredItems.length !== documents.length;
         const deleteMovePage =
-            isFileDeleted &&
-            !isFileUploaded &&
-            visibleItems.length === 1 &&
-            currentPage > 1;
-
-        const deleteDontMovePage =
-            isFileDeleted && !isFileUploaded && visibleItems.length !== 1;
+            isFileDeleted && visibleItems.length === 1 && currentPage > 1;
+        const deleteDontMovePage = isFileDeleted && visibleItems.length !== 1;
 
         if (deleteMovePage) {
             setCurrentPage(currentPage - 1);
@@ -93,15 +87,10 @@ function App() {
 
         if (deleteDontMovePage) setIsFiledDeleted(false);
 
-        if (isFileUploaded && visibleItems.length === itemsPerPage) {
+        if (isFileUploaded) {
             setIsFileUploaded(false);
             setCurrentPage(totalPages);
-            console.log("uploaded One");
-        }
-
-        if (isFileUploaded && visibleItems.length !== itemsPerPage) {
-            setIsFileUploaded(false);
-            console.log("uploaded Two");
+            console.log("uploaded file");
         }
     }, [totalItems]);
 
@@ -116,21 +105,17 @@ function App() {
     function handleUpload() {
         const newItem = uploadItem(documents);
         const updatedDocuments = [...documents, newItem];
-        const updatedFilteredItems = [...filteredItems, newItem];
 
         setDocuments(updatedDocuments);
-        setFilteredItems(isFilterOn ? updatedDocuments : updatedFilteredItems);
+        setFilteredItems(updatedDocuments);
         setIsFileUploaded(true);
     }
 
     function handleDelete(id: number) {
         const updatedDocuments = documents.filter((item) => item.id !== id);
-        const updatedFilteredItems = filteredItems.filter(
-            (item) => item.id !== id
-        );
 
         setDocuments(updatedDocuments);
-        setFilteredItems(isFilterOn ? updatedDocuments : updatedFilteredItems);
+        setFilteredItems(updatedDocuments);
         setIsFiledDeleted(true);
     }
 
