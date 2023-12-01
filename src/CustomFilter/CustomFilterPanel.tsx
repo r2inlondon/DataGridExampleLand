@@ -6,7 +6,7 @@ import {
     DocumentsColumnsWithOpValues,
 } from "./utils/columnsTypes";
 import { OperatorsBaseInt } from "./utils/columnsTypes";
-import { SavedFilterType } from "./FilterContainer";
+import { CachedFilterType } from "./FilterContainer";
 import { addOperatorsToColumn } from "./utils/addOperatorsToColumn";
 import { runFilter } from "./utils/runFilter";
 import FilterForm from "./FilterForm";
@@ -19,8 +19,8 @@ type CustomFilterPanelProps = {
     setFilteredItems: (items: StoredFilesType[]) => void;
     setIsFilterOn: (isFilterOn: boolean) => void;
     isFilterOn: boolean;
-    cachedFilter: SavedFilterType | undefined;
-    setCachedFilter: (filter: SavedFilterType | undefined) => void;
+    cachedFilter: CachedFilterType | undefined;
+    setCachedFilter: (filter: CachedFilterType | undefined) => void;
 };
 
 const CustomFilterPanel = (props: CustomFilterPanelProps) => {
@@ -81,7 +81,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     }
 
     useEffect(() => {
-        if (resetFilter && !isFilterOn) {
+        if (resetFilter) {
             setFilterUp(baseColumn);
         }
     }, [resetFilter]);
@@ -97,6 +97,13 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     }, []);
 
     useEffect(() => {
+        if (selectedColumn) {
+            const foundColumn = columnsWithOperators.find(
+                (column) => column.field === selectedColumn.field
+            );
+
+            if (foundColumn) setColumnForLabel(foundColumn.headerName);
+        }
         if (columnsWithOperators.length > 0 && !cachedFilter) {
             const foundColumn = columnsWithOperators.find(
                 (column) => column.field === selectedColumn?.field
@@ -104,19 +111,10 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
 
             if (foundColumn) {
                 const operators = foundColumn.operatorsValues;
+                setColumnForLabel(foundColumn.headerName);
                 setSelectedOperator(operators[0].value);
                 setOperatorsForSelectMenu(operators);
             }
-        }
-    }, [selectedColumn]);
-
-    useEffect(() => {
-        if (selectedColumn) {
-            const foundColumn = columnsWithOperators.find(
-                (column) => column.field === selectedColumn.field
-            );
-
-            if (foundColumn) setColumnForLabel(foundColumn.headerName);
         }
     }, [selectedColumn]);
 
@@ -139,6 +137,21 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
             }
         }
     }, [operatorsForSelectMenu, selectedOperator]);
+
+    useEffect(() => {
+        if (selectedColumn !== undefined) {
+            const filterModel = {
+                column: selectedColumn,
+                operator: selectedOperator,
+                value: filterValue,
+            };
+
+            setCachedFilter(filterModel);
+
+            const results = runFilter(data, filterModel);
+            setFilteredItems(results);
+        }
+    }, [selectedOperator, filterValue]);
 
     function handleClearFilter() {
         setIsFilterOn(false);
@@ -163,21 +176,6 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
             if (operator) setSelectedOperator(operator.value);
         }
     }
-
-    useEffect(() => {
-        if (selectedColumn !== undefined) {
-            const filterModel = {
-                column: selectedColumn,
-                operator: selectedOperator,
-                value: filterValue,
-            };
-
-            setCachedFilter(filterModel);
-
-            const results = runFilter(data, filterModel);
-            setFilteredItems(results);
-        }
-    }, [selectedOperator, filterValue]);
 
     function handleFilterValue(userInput: string) {
         setFilterValue(userInput);
