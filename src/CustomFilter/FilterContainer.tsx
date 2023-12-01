@@ -70,11 +70,11 @@ function FilterContainer(props: ComponentProps) {
                 onClose={handlePopoverClose}
                 anchorOrigin={{
                     vertical: "bottom",
-                    horizontal: "left",
+                    horizontal: "right",
                 }}
                 transformOrigin={{
                     vertical: "top",
-                    horizontal: "left",
+                    horizontal: "right",
                 }}
             >
                 <CustomFilterPanel
