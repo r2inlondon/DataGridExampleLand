@@ -53,13 +53,18 @@ function FilterContainer(props: ComponentProps) {
     return (
         <Fragment>
             <IconButton
+                data-test="filter-button"
                 size="small"
                 color="primary"
                 id={open ? "simple-popover" : undefined}
                 aria-haspopup="true"
                 onClick={handlePopoverOpen}
             >
-                <Badge badgeContent={isFilterOn ? 1 : 0} color="primary">
+                <Badge
+                    data-test="filter-badge"
+                    badgeContent={isFilterOn ? 1 : 0}
+                    color="primary"
+                >
                     <FilterListIcon />
                 </Badge>
             </IconButton>

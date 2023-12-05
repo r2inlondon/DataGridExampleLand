@@ -48,12 +48,17 @@ function FilterForm(props: ComponentProps) {
 
     return (
         <div className={classes.container}>
-            <IconButton onClick={handleClearFilter} size="small">
+            <IconButton
+                data-test="clear-filter-button"
+                onClick={handleClearFilter}
+                size="small"
+            >
                 <ClearIcon />
             </IconButton>
             <FormControl className={classes.inputs} variant="standard">
                 <InputLabel id="column-select-label">Columns</InputLabel>
                 <Select
+                    data-test="form-column"
                     labelId="column-select-label"
                     id="column-select"
                     value={
@@ -75,6 +80,7 @@ function FilterForm(props: ComponentProps) {
                 <InputLabel id="operator-select-label">Operators</InputLabel>
                 {operatorsForSelectMenu.length > 0 && (
                     <Select
+                        data-test="form-operator"
                         labelId="operator-select-label"
                         id="operator-select"
                         value={
@@ -97,6 +103,7 @@ function FilterForm(props: ComponentProps) {
                 )}
             </FormControl>
             <TextField
+                data-test="form-input"
                 id="filter-value-input"
                 label={isDate ? " " : "Value"}
                 type={isDate ? "date" : "text"}

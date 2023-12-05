@@ -212,7 +212,11 @@ function App() {
     return (
         <div className={classes.mainContainer}>
             <div className={classes.header}>
-                <Typography color="textSecondary" variant="body2">
+                <Typography
+                    data-test="filter-header"
+                    color="textSecondary"
+                    variant="body2"
+                >
                     {`Showing ${visibleItems.length} out of ${filteredItems.length} documents`}
                 </Typography>
                 <div className={classes.iconsHeader}>

@@ -24,6 +24,7 @@ const DataGridContainer = ({ data, columns }: ContainerProps) => {
 
     return (
         <div
+            data-test="data-grid"
             style={{
                 backgroundColor: "#e3e3e3",
                 // height: "120vh",
