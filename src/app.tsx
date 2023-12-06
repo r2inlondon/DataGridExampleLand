@@ -241,7 +241,7 @@ function App() {
                 </div>
             </div>
             {showGrid && (
-                <div className={classes.grid}>
+                <div data-test="grid-ele" className={classes.grid}>
                     {visibleItems.map((document) => (
                         <DocumentItem
                             key={document.filename}

@@ -22,5 +22,10 @@ describe("launch filter and fire search", () => {
         cy.getDataTest("form-input").type("libros");
         cy.getDataTest("filter-header").contains(/showing 1 out of 1/i);
         cy.getDataTest("filter-badge").should("be.visible");
+        cy.getDataTest("grid-ele").children().should("have.length", 1);
+        cy.get(".MuiPagination-ul").children().should("have.length", 5);
+        cy.getDataTest("clear-filter-button").click();
+        cy.getDataTest("filter-header").contains(/showing 3 out of 7/i);
+        cy.getDataTest("filter-badge").should("have.text", "0");
     });
 });

@@ -1,7 +1,10 @@
 {
     "compilerOptions": {
         "strict": true /* Enable all strict type-checking options. */,
+        "esModuleInterop": true,
         "target": "es5",
+        "skipLibCheck": true /* Skip type checking of declaration files. */,
+        "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
         "lib": ["es5", "dom"],
         "types": ["cypress", "node", "./cypress/support/"]
     },
