@@ -7,5 +7,6 @@ declare namespace Cypress {
          * @example cy.dataCy('greeting')
          */
         getDataTest(dataTestSelector: string): Chainable<JQuery<HTMLElement>>;
+        clickOutside(): Chainable<any>;
     }
 }

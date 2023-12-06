@@ -1,4 +1,4 @@
-import _, { lowerCase } from "lodash";
+import _, { toLower } from "lodash";
 
 export interface StringFilterFunctionsInt {
     value: string;
@@ -29,9 +29,10 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                     return null;
                 }
 
-                const userInput = _.lowerCase(filterItem.value);
-                const itemValue = _.lowerCase(value);
-
+                const userInput = _.toLower(filterItem.value);
+                const itemValue = _.toLower(value);
+                console.log({ userInput });
+                console.log({ itemValue });
                 return value != null ? itemValue.includes(userInput) : false;
             };
         },
@@ -49,8 +50,8 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 ) {
                     return null;
                 }
-                const userInput = _.lowerCase(filterItem.value);
-                const itemValue = _.lowerCase(value);
+                const userInput = _.toLower(filterItem.value);
+                const itemValue = _.toLower(value);
                 return value != null ? itemValue === userInput : false;
             };
         },
@@ -68,8 +69,8 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 ) {
                     return null;
                 }
-                const userInput = _.lowerCase(filterItem.value);
-                const itemValue = _.lowerCase(value);
+                const userInput = _.toLower(filterItem.value);
+                const itemValue = _.toLower(value);
 
                 return value != null ? itemValue.startsWith(userInput) : false;
             };
@@ -88,8 +89,8 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
                 ) {
                     return null;
                 }
-                const userInput = _.lowerCase(filterItem.value);
-                const itemValue = _.lowerCase(value);
+                const userInput = _.toLower(filterItem.value);
+                const itemValue = _.toLower(value);
 
                 return value != null ? itemValue.endsWith(userInput) : false;
             };

@@ -47,10 +47,14 @@ function DocumentItem({ document, onDelete }: DocumentItemProps) {
                 {/* <Icon className={classes.icon}>
                     <ContentTypeIcon contentType={document.contentType} />
                 </Icon> */}
-                <Typography classes={{ root: classes.title }}>
+                <Typography
+                    data-test={`grid-item-${document.filename}`}
+                    classes={{ root: classes.title }}
+                >
                     {document.filename}
                 </Typography>
                 <IconButton
+                    data-test={`btn-menu-${document.filename}`}
                     classes={{ root: classes.moreButton }}
                     size="small"
                     onClick={handleOpenMenu}
@@ -71,7 +75,10 @@ function DocumentItem({ document, onDelete }: DocumentItemProps) {
                         </ListItemIcon>
                         <ListItemText>Download</ListItemText>
                     </MenuItem>
-                    <MenuItem onClick={handleDelete}>
+                    <MenuItem
+                        data-test={`test-delete-btn-${document.filename}`}
+                        onClick={handleDelete}
+                    >
                         <ListItemIcon>
                             <DeleteIcon />
                         </ListItemIcon>

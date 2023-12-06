@@ -180,7 +180,11 @@ function App() {
             width: 50,
             disableColumnMenu: true,
             renderCell: ({ row }: GridValueFormatterParams) => (
-                <IconButton size="small" onClick={() => handleDelete(row.id)}>
+                <IconButton
+                    data-test={`test-delete-btn-${row.filename}`}
+                    size="small"
+                    onClick={() => handleDelete(row.id)}
+                >
                     <DeleteOutlineIcon color="error" />
                 </IconButton>
             ),
@@ -189,6 +193,7 @@ function App() {
 
     const uploadButton = (
         <Button
+            data-test="upload-button"
             color="secondary"
             variant="outlined"
             component="label"

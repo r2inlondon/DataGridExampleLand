@@ -69,6 +69,7 @@ function FilterContainer(props: ComponentProps) {
                 </Badge>
             </IconButton>
             <Popover
+                data-test="filter-popover"
                 id="simple-popover"
                 open={open}
                 anchorEl={anchorEl}

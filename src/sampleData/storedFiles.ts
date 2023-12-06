@@ -9,7 +9,7 @@ export type StoredFilesType = {
 export const storedFiles: StoredFilesType[] = [
     {
         id: 1,
-        filename: "libros.xls",
+        filename: "liBros.xls",
         filetype: "Excel file",
         size: 4324521,
         created_at: "2023-11-21T18:54:23.081Z",
