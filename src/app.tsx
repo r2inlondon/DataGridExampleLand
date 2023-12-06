@@ -203,7 +203,11 @@ function App() {
 
     const gridAndListButton = (
         <Box component="div" mx={2} display="flex" justifyContent="center">
-            <IconButton onClick={() => setShowGrid(!showGrid)} size="small">
+            <IconButton
+                data-test="gridAndListButton"
+                onClick={() => setShowGrid(!showGrid)}
+                size="small"
+            >
                 {showGrid ? <ViewGridOutlineIcon /> : <ListIcon />}
             </IconButton>
         </Box>
