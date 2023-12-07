@@ -70,7 +70,11 @@ function FilterForm(props: ComponentProps) {
                     label="Columns"
                 >
                     {columnsWithOperators.map((column, index) => (
-                        <MenuItem key={index} value={column.headerName}>
+                        <MenuItem
+                            data-test={`test-${column.field}`}
+                            key={index}
+                            value={column.headerName}
+                        >
                             {column.headerName}
                         </MenuItem>
                     ))}
@@ -95,7 +99,11 @@ function FilterForm(props: ComponentProps) {
                         label="Operators"
                     >
                         {operatorsForSelectMenu?.map((operator, index) => (
-                            <MenuItem key={index} value={operator.label}>
+                            <MenuItem
+                                data-test={`test-${operator.value}`}
+                                key={operator.value}
+                                value={operator.label}
+                            >
                                 {operator.label}
                             </MenuItem>
                         ))}

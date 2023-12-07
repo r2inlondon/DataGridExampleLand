@@ -31,8 +31,6 @@ export const stringFilterFunctions: StringFilterFunctionsInt[] = [
 
                 const userInput = _.toLower(filterItem.value);
                 const itemValue = _.toLower(value);
-                console.log({ userInput });
-                console.log({ itemValue });
                 return value != null ? itemValue.includes(userInput) : false;
             };
         },
