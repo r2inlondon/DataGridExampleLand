@@ -1,16 +1,15 @@
+import { GridColDef } from "@mui/x-data-grid";
+
 import {
     stringOperatorsValues,
     dateOperatorsValues,
     numberOperatorsValues,
 } from "./operatorsValues";
 
-import {
-    DocumentsColumnsInt,
-    DocumentsColumnsWithOpValues,
-} from "./columnsTypes";
+import { DocumentsColumnsWithOpValues } from "./columnsTypes";
 
 export function addOperatorsToColumn(
-    columns: DocumentsColumnsInt[]
+    columns: GridColDef[]
 ): DocumentsColumnsWithOpValues[] {
     const onlyVisibleColumns = columns.filter(
         (column) => column?.hide !== true

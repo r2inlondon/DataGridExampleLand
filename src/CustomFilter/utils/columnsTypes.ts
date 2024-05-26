@@ -1,14 +1,10 @@
-export type DocumentsColumnsInt = {
-    field: string;
-    headerName: string;
-    disableColumnMenu: boolean;
-    type: string;
-    width?: number;
-    flex?: number;
-    hide?: boolean;
-};
+import { GridColDef } from "@mui/x-data-grid";
 
-export interface DocumentsColumnsWithOpValues extends DocumentsColumnsInt {
+export interface IDocColumns extends GridColDef {
+    options?: string[];
+}
+
+export interface DocumentsColumnsWithOpValues extends IDocColumns {
     operatorsValues: OperatorsBaseInt[];
 }
 

@@ -6,7 +6,8 @@ import ListIcon from "@material-ui/icons/List";
 import ViewGridOutlineIcon from "mdi-react/ViewGridOutlineIcon";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import CloudUploadOutlinedIcon from "@material-ui/icons/CloudUploadOutlined";
-import { GridColDef, GridValueFormatterParams } from "@mui/x-data-grid";
+import { GridValueFormatterParams } from "@mui/x-data-grid";
+import { commonFileExt } from "./utils/commonFileExt";
 
 import {
     Box,
@@ -40,7 +41,7 @@ function App() {
     const open = Boolean(anchorEl);
 
     const totalItems = filteredItems.length;
-    const itemsPerPage = 3;
+    const itemsPerPage = 5;
     const totalPages = Math.ceil(totalItems / itemsPerPage);
 
     useEffect(() => {
@@ -142,6 +143,7 @@ function App() {
             disableColumnMenu: true,
             flex: 1,
             type: "string",
+            options: commonFileExt,
         },
         {
             field: "size",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import {
     IconButton,
@@ -9,6 +9,7 @@ import {
     TextField,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import ClearIcon from "@material-ui/icons/Clear";
 
 import {
@@ -19,6 +20,7 @@ import {
 type ComponentProps = {
     handleClearFilter: () => void;
     columnsIndex: number;
+    columnForLabel: string;
     columnsWithOperators: DocumentsColumnsWithOpValues[];
     handleSelectedColumn: (value: string) => void;
     operatorsForSelectMenu: OperatorsBaseInt[];
@@ -33,9 +35,11 @@ const useStyles = makeStyles((theme) => styles(theme));
 
 function FilterForm(props: ComponentProps) {
     const classes = useStyles();
+    const [optionsSelect, setOptionsSelect] = useState<string[] | undefined>();
     const {
         handleClearFilter,
         columnsIndex,
+        columnForLabel,
         columnsWithOperators,
         handleSelectedColumn,
         operatorsForSelectMenu,
@@ -45,6 +49,54 @@ function FilterForm(props: ComponentProps) {
         filterValue,
         handleFilterValue,
     } = props;
+
+    useEffect(() => {
+        const columnOptions = columnsWithOperators.filter(
+            (column) => column.headerName === columnForLabel
+        );
+
+        // extracting the options from the type column which are for the AutoComplete
+        setOptionsSelect(
+            columnOptions[0]?.options ? columnOptions[0]?.options : undefined
+        );
+    }, [columnForLabel]);
+
+    const textfieldNoAuto = (
+        <TextField
+            id="filter-value-input"
+            label={isDate ? " " : "Value"}
+            type={isDate ? "date" : "text"}
+            inputProps={{
+                autoComplete: "off",
+            }}
+            value={filterValue}
+            onChange={(e: any) => handleFilterValue(e.target.value)}
+            classes={{ root: classes.inputs }}
+            style={{ flexGrow: 1 }}
+        />
+    );
+
+    const textfieldAuto = (
+        <Autocomplete
+            freeSolo
+            clearOnBlur
+            clearOnEscape
+            disableClearable
+            onInputChange={(event, value) => handleFilterValue(value)}
+            value={filterValue}
+            options={optionsSelect || []}
+            renderInput={(params) => (
+                <TextField
+                    {...params}
+                    color="secondary"
+                    fullWidth={true}
+                    id="filter-value-input"
+                    label="Enter Value"
+                    classes={{ root: classes.autoTextfield }}
+                />
+            )}
+        />
+    );
 
     return (
         <div className={classes.container}>
@@ -96,7 +148,7 @@ function FilterForm(props: ComponentProps) {
                     </Select>
                 )}
             </FormControl>
-            <TextField
+            {/* <TextField
                 id="filter-value-input"
                 label={isDate ? " " : "Value"}
                 type={isDate ? "date" : "text"}
@@ -107,7 +159,10 @@ function FilterForm(props: ComponentProps) {
                 onChange={(e: any) => handleFilterValue(e.target.value)}
                 className={classes.inputs}
                 style={{ flexGrow: 1 }}
-            />
+            /> */}
+            {optionsSelect && optionsSelect.length > 1
+                ? textfieldAuto
+                : textfieldNoAuto}
         </div>
     );
 }
@@ -134,6 +189,14 @@ const styles = (theme: any) => ({
             "&:after": {
                 borderBottom: "2px solid red",
             },
+        },
+    },
+    autoTextfield: {
+        width: 150,
+    },
+    "&. MuiInputBase-root": {
+        "&:after": {
+            borderBottom: `2px solid ${theme.palette.secondary.main}`,
         },
     },
 });

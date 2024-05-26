@@ -2,11 +2,9 @@ import React, { Fragment, useState } from "react";
 
 import { IconButton, Badge, Popover } from "@material-ui/core";
 import FilterListIcon from "@material-ui/icons/FilterList";
+import { GridColDef } from "@mui/x-data-grid";
 
-import {
-    DocumentsColumnsInt,
-    DocumentsColumnsWithOpValues,
-} from "./utils/columnsTypes";
+import { DocumentsColumnsWithOpValues } from "./utils/columnsTypes";
 import { StoredFilesType } from "../sampleData/storedFiles";
 
 import CustomFilterPanel from "./CustomFilterPanel";
@@ -21,7 +19,7 @@ type ComponentProps = {
     documents: StoredFilesType[];
     filteredItems: StoredFilesType[];
     setFilteredItems: (items: StoredFilesType[]) => void;
-    columns: DocumentsColumnsInt[];
+    columns: GridColDef[];
     handlePopoverOpen: (event: any) => void;
     open: boolean;
     anchorEl: any;
@@ -48,7 +46,7 @@ function FilterContainer(props: ComponentProps) {
         CachedFilterType | undefined
     >();
 
-    const baseColumn: DocumentsColumnsInt = columns[1];
+    const baseColumn: GridColDef = columns[1];
 
     return (
         <Fragment>

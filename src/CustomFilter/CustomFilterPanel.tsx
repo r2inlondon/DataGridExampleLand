@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 
+import { GridColDef } from "@mui/x-data-grid";
+
 import { StoredFilesType } from "../sampleData/storedFiles";
-import {
-    DocumentsColumnsInt,
-    DocumentsColumnsWithOpValues,
-} from "./utils/columnsTypes";
+import { DocumentsColumnsWithOpValues } from "./utils/columnsTypes";
 import { OperatorsBaseInt } from "./utils/columnsTypes";
 import { CachedFilterType } from "./FilterContainer";
 import { addOperatorsToColumn } from "./utils/addOperatorsToColumn";
@@ -13,8 +12,8 @@ import FilterForm from "./FilterForm";
 
 type CustomFilterPanelProps = {
     data: StoredFilesType[];
-    columns: DocumentsColumnsInt[];
-    baseColumn: DocumentsColumnsInt;
+    columns: GridColDef[];
+    baseColumn: GridColDef;
     filteredItems: StoredFilesType[];
     setFilteredItems: (items: StoredFilesType[]) => void;
     setIsFilterOn: (isFilterOn: boolean) => void;
@@ -53,7 +52,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     const [columnForLabel, setColumnForLabel] = useState<string>("");
 
     function setFilterUp(
-        initColumn: DocumentsColumnsWithOpValues | DocumentsColumnsInt,
+        initColumn: DocumentsColumnsWithOpValues | GridColDef,
         operator = "",
         filterValue = ""
     ) {
@@ -102,7 +101,8 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
                 (column) => column.field === selectedColumn.field
             );
 
-            if (foundColumn) setColumnForLabel(foundColumn.headerName);
+            if (foundColumn?.headerName)
+                setColumnForLabel(foundColumn.headerName);
         }
         if (columnsWithOperators.length > 0 && !cachedFilter) {
             const foundColumn = columnsWithOperators.find(
@@ -111,7 +111,6 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
 
             if (foundColumn) {
                 const operators = foundColumn.operatorsValues;
-                setColumnForLabel(foundColumn.headerName);
                 setSelectedOperator(operators[0].value);
                 setOperatorsForSelectMenu(operators);
             }
@@ -190,6 +189,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
             handleClearFilter={handleClearFilter}
             columnsWithOperators={columnsWithOperators}
             columnsIndex={columnsIndex}
+            columnForLabel={columnForLabel}
             handleSelectedColumn={handleSelectedColumn}
             operatorsForSelectMenu={operatorsForSelectMenu}
             operatorForLabelIndex={operatorForLabelIndex}
