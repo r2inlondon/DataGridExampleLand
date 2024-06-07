@@ -7,7 +7,7 @@ import ViewGridOutlineIcon from "mdi-react/ViewGridOutlineIcon";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import CloudUploadOutlinedIcon from "@material-ui/icons/CloudUploadOutlined";
 import { GridValueFormatterParams } from "@mui/x-data-grid";
-import { commonFileExt } from "./utils/commonFileExt";
+import { commonFileExtDeed } from "./utils/commonFileExt";
 
 import {
     Box,
@@ -135,6 +135,7 @@ function App() {
             disableColumnMenu: true,
             flex: 1,
             type: "string",
+            options: commonFileExtDeed,
             // filterOperators: getGridNumberOperators()
         },
         {
@@ -143,7 +144,7 @@ function App() {
             disableColumnMenu: true,
             flex: 1,
             type: "string",
-            options: commonFileExt,
+            // options: commonFileExt,
         },
         {
             field: "size",
@@ -230,6 +231,7 @@ function App() {
                         setIsFilterOn={setIsFilterOn}
                         anchorEl={anchorEl}
                         handlePopoverClose={handlePopoverClose}
+                        titleDeedFilter
                     />
                     {gridAndListButton}
                 </div>

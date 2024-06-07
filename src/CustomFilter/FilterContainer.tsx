@@ -26,6 +26,7 @@ type ComponentProps = {
     handlePopoverClose: () => void;
     isFilterOn: boolean;
     setIsFilterOn: (isFilterOn: boolean) => void;
+    titleDeedFilter: boolean;
 };
 
 function FilterContainer(props: ComponentProps) {
@@ -40,6 +41,7 @@ function FilterContainer(props: ComponentProps) {
         handlePopoverClose,
         isFilterOn,
         setIsFilterOn,
+        titleDeedFilter,
     } = props;
 
     const [cachedFilter, setCachedFilter] = useState<
@@ -85,10 +87,16 @@ function FilterContainer(props: ComponentProps) {
                     isFilterOn={isFilterOn}
                     cachedFilter={cachedFilter}
                     setCachedFilter={setCachedFilter}
+                    handlePopoverClose={handlePopoverClose}
+                    titleDeedFilter={titleDeedFilter}
                 />
             </Popover>
         </Fragment>
     );
 }
+
+FilterContainer.defaultProps = {
+    titleDeedFilter: false,
+};
 
 export default FilterContainer;

@@ -9,6 +9,7 @@ import { CachedFilterType } from "./FilterContainer";
 import { addOperatorsToColumn } from "./utils/addOperatorsToColumn";
 import { runFilter } from "./utils/runFilter";
 import FilterForm from "./FilterForm";
+import FilterFormDeed from "./FilterFormDeed";
 
 type CustomFilterPanelProps = {
     data: StoredFilesType[];
@@ -20,6 +21,8 @@ type CustomFilterPanelProps = {
     isFilterOn: boolean;
     cachedFilter: CachedFilterType | undefined;
     setCachedFilter: (filter: CachedFilterType | undefined) => void;
+    handlePopoverClose: () => void;
+    titleDeedFilter: boolean;
 };
 
 const CustomFilterPanel = (props: CustomFilterPanelProps) => {
@@ -33,6 +36,8 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
         setIsFilterOn,
         cachedFilter,
         setCachedFilter,
+        handlePopoverClose,
+        titleDeedFilter,
     } = props;
 
     const [isDate, setIsDate] = useState<boolean>(false);
@@ -158,6 +163,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     }
 
     function handleSelectedColumn(columnName: string) {
+        console.log("columnName", columnName);
         const column = columnsWithOperators.find(
             (column) => column.headerName === columnName
         );
@@ -167,6 +173,7 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     }
 
     function handleSelectedOperator(operatorLabel: string) {
+        console.log("operatorLabel", operatorLabel);
         if (operatorsForSelectMenu) {
             const operator = operatorsForSelectMenu.find(
                 (operator) => operator.label === operatorLabel
@@ -185,19 +192,38 @@ const CustomFilterPanel = (props: CustomFilterPanelProps) => {
     );
 
     return (
-        <FilterForm
-            handleClearFilter={handleClearFilter}
-            columnsWithOperators={columnsWithOperators}
-            columnsIndex={columnsIndex}
-            columnForLabel={columnForLabel}
-            handleSelectedColumn={handleSelectedColumn}
-            operatorsForSelectMenu={operatorsForSelectMenu}
-            operatorForLabelIndex={operatorForLabelIndex}
-            isDate={isDate}
-            handleSelectedOperator={handleSelectedOperator}
-            filterValue={filterValue}
-            handleFilterValue={handleFilterValue}
-        />
+        <>
+            {titleDeedFilter ? (
+                <FilterFormDeed
+                    handleClearFilter={handleClearFilter}
+                    columnsWithOperators={columnsWithOperators}
+                    columnsIndex={columnsIndex}
+                    columnForLabel={columnForLabel}
+                    handleSelectedColumn={handleSelectedColumn}
+                    operatorsForSelectMenu={operatorsForSelectMenu}
+                    operatorForLabelIndex={operatorForLabelIndex}
+                    isDate={isDate}
+                    handleSelectedOperator={handleSelectedOperator}
+                    filterValue={filterValue}
+                    handleFilterValue={handleFilterValue}
+                    handlePopoverClose={handlePopoverClose}
+                />
+            ) : (
+                <FilterForm
+                    handleClearFilter={handleClearFilter}
+                    columnsWithOperators={columnsWithOperators}
+                    columnsIndex={columnsIndex}
+                    columnForLabel={columnForLabel}
+                    handleSelectedColumn={handleSelectedColumn}
+                    operatorsForSelectMenu={operatorsForSelectMenu}
+                    operatorForLabelIndex={operatorForLabelIndex}
+                    isDate={isDate}
+                    handleSelectedOperator={handleSelectedOperator}
+                    filterValue={filterValue}
+                    handleFilterValue={handleFilterValue}
+                />
+            )}
+        </>
     );
 };
 

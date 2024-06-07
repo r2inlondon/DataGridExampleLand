@@ -1,7 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 
 export interface IDocColumns extends GridColDef {
-    options?: string[];
+    options?: any;
 }
 
 export interface DocumentsColumnsWithOpValues extends IDocColumns {
